@@ -3,7 +3,7 @@ import { animate, motion, useMotionTemplate, useMotionValue, useReducedMotion, u
 import { CharacterReveal } from '../utils/motion';
 import { playSfx } from '../utils/audio';
 import { EVENT } from '../data/event';
-import { CountdownTimer } from './CountdownTimer';
+import { calendarUrl, CountdownTimer } from './CountdownTimer';
 import { FourPointStar } from './Editorial';
 import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
 
@@ -16,7 +16,7 @@ interface HeroProps {
 
 const FACTS = [
   { label: 'Event', value: 'Student hackathon', note: 'Classes 8–12' },
-  { label: 'Date', value: EVENT.dateLabel, note: 'Final date to be confirmed' },
+  { label: 'Date', value: EVENT.dateLabel, note: 'Starts 9:00 AM IST' },
   { label: 'Duration', value: '24 hours', note: 'Non-stop' },
   { label: 'Format', value: 'Offline', note: 'In person, Delhi NCR' },
 ];
@@ -100,7 +100,10 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
         <FourPointStar className="twinkle twinkle-late absolute right-[7%] top-[16%] w-3 text-paper" />
 
         <div className="wrap relative flex-1 flex flex-col pt-6">
-          <Intro />
+          <div className="flex items-center justify-between gap-4 min-h-9">
+            <Intro />
+            <CountdownTimer className="hidden sm:flex" />
+          </div>
           <h1 aria-label="Below Zero" className={titleClass}>
             <React.Fragment key={String(ready)}>
               <CharacterReveal text="BELOW" delay={0.05} stagger={0.035} />
@@ -180,11 +183,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
         </motion.div>
       </div>
 
-      {EVENT.confirmedStart && (
-        <div className="wrap relative pb-6">
-          <CountdownTimer onRsvpClick={onRegisterClick} />
-        </div>
-      )}
+      <CountdownTimer className="sm:hidden wrap relative pb-5" />
 
       <motion.div {...fadeUp(0.65)} className="relative border-t border-paper/30">
         <dl className="wrap grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
@@ -197,7 +196,19 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
             >
               <dt className="label text-sun">{f.label}</dt>
               <dd className="display text-[clamp(1.5rem,3.3vw,3.5rem)] mt-1.5 lg:whitespace-nowrap">{f.value}</dd>
-              <dd className="text-[0.9375rem] leading-snug mt-1.5 text-paper/80">{f.note}</dd>
+              <dd className="text-[0.9375rem] leading-snug mt-1.5 text-paper/80">
+                {f.note}
+                {f.label === 'Date' && calendarUrl() && (
+                  <a
+                    href={calendarUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block underline underline-offset-4 hover:text-sun py-2.5 lg:py-1"
+                  >
+                    Add to calendar
+                  </a>
+                )}
+              </dd>
             </div>
           ))}
         </dl>

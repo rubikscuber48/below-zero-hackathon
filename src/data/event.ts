@@ -6,12 +6,14 @@
 
 export const EVENT = {
   /** Shown until an exact date is set below. */
-  dateLabel: 'Mid-November',
+  dateLabel: '14 November',
   /**
    * Set to an ISO string (e.g. '2026-11-14T09:00:00+05:30') once the date is
    * final. The countdown and "Save to calendar" return to the hero when set.
    */
-  confirmedStart: null as string | null,
+  confirmedStart: '2026-11-14T09:00:00+05:30' as string | null,
+  /** Event end, used for the calendar link. */
+  confirmedEnd: '2026-11-15T09:00:00+05:30' as string | null,
   email: 'official.lostinstars@gmail.com',
   /**
    * REGISTRATION LINK. Paste the live form URL here (Google Forms, Fillout, etc).

@@ -50,7 +50,7 @@ const GROUPS: { name: string; items: { q: string; a: string }[] }[] = [
   {
     name: 'Logistics',
     items: [
-      { q: 'When and where is it?', a: 'Mid-November 2026, in person in Delhi NCR. The final date is still to be confirmed. Venue details and logistics will be emailed directly to accepted teams.' },
+      { q: 'When and where is it?', a: '14 November 2026, starting at 9:00 AM IST, in person in Delhi NCR. Venue details and logistics will be emailed directly to accepted teams.' },
       { q: 'What is provided on the day?', a: 'Food, beverages, power, Wi-Fi, mentorship, and swag.' },
     ],
   },

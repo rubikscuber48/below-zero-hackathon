@@ -10,7 +10,7 @@ export const SystemTicker: React.FC = () => {
     '5 TRACKS',
     'PRIZES',
     'SPONSORS',
-    'MID NOVEMBER 2026',
+    '14 NOVEMBER 2026',
     'CLASSES 8–12 EXCLUSIVE',
     'OFFLINE DELHI NCR',
     'LOST IN STARS',

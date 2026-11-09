@@ -128,7 +128,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
             transition={{ duration: 0.4, delay: 0.6 }}
             className="label absolute bottom-6 inset-x-5 flex items-center justify-between gap-4"
           >
-            <span>Mid-November 2026</span>
+            <span>14 November 2026</span>
             <span className="hidden sm:inline">24-hour sprint</span>
             <span>Classes 8–12</span>
           </motion.div>
