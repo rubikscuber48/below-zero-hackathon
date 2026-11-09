@@ -51,11 +51,11 @@ export const Team: React.FC = () => (
 
         <div className="col-span-12 lg:col-span-7">
           <h3 className="label border-t border-void pt-3 mb-4">Organizers</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-8">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-x-5 gap-y-8">
             {ORGANIZERS.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
-                <Portrait person={p} size="text-[clamp(5.5rem,10vw,10rem)]" />
-                <p className="display text-[clamp(2.75rem,4vw,4rem)] mt-3">{p.name}</p>
+                <Portrait person={p} size="text-[clamp(5.5rem,7vw,7.5rem)]" />
+                <p className="display text-[9.6vw] sm:text-[clamp(2.5rem,5.5vw,3.5rem)] xl:text-[2.8vw] 2xl:text-[2.9rem] mt-3">{p.name}</p>
                 <p className="label mt-2">{p.role}</p>
                 <p className="text-[1.0625rem] leading-snug mt-2">{p.description}</p>
               </Reveal>

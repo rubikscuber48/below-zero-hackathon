@@ -108,7 +108,7 @@ export const LEADERSHIP: Person[] = [
 export const ORGANIZERS: Person[] = [
   {
     name: 'Ananya',
-    role: 'Lead Designer & Creative Director',
+    role: 'Creative Director',
     description: 'Driving visual identity, brand systems, and high-contrast digital experiences.',
     initials: 'AN',
   },
@@ -123,6 +123,12 @@ export const ORGANIZERS: Person[] = [
     role: 'Partnerships & Operations Co-Lead',
     description: 'Managing partner deliverables, event logistics, and hacker support.',
     initials: 'MY',
+  },
+  {
+    name: 'Ayushman',
+    role: 'Website Designer',
+    description: 'Designing the BELOW ZERO website.',
+    initials: 'AY',
   },
 ];
 
