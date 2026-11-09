@@ -23,16 +23,20 @@ import { Footer } from './components/Footer';
 import { Challenge } from './components/Challenge';
 import { HowItWorks } from './components/HowItWorks';
 import { RegistrationNotice } from './components/RegistrationNotice';
+import { RegistrationPanel } from './components/RegistrationPanel';
 import { EVENT } from './data/event';
 import { CustomCursor } from './components/CustomCursor';
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false);
   const [noticeOpen, setNoticeOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   // Every Register button comes through here. Set EVENT.registrationUrl to go live.
   const handleRegister = () => {
-    if (EVENT.registrationUrl) {
+    if (EVENT.registrationEmbedUrl) {
+      setPanelOpen(true);
+    } else if (EVENT.registrationUrl) {
       window.open(EVENT.registrationUrl, '_blank', 'noopener');
     } else {
       setNoticeOpen(true);
@@ -110,6 +114,7 @@ export default function App() {
       <Footer />
 
       <RegistrationNotice isOpen={noticeOpen} onClose={() => setNoticeOpen(false)} />
+      <RegistrationPanel isOpen={panelOpen} onClose={() => setPanelOpen(false)} />
     </div>
     </MotionConfig>
   );

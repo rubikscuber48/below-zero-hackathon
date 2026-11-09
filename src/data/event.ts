@@ -21,6 +21,9 @@ export const EVENT = {
    * registration has not opened yet.
    */
   registrationUrl: 'https://forms.gle/EkegWVdGvFhTw3V68',
+  /** The same form in Google's embeddable view. Register buttons show it on the site when set. */
+  registrationEmbedUrl:
+    'https://docs.google.com/forms/d/e/1FAIpQLSc0qr6u0LYtSEN8Kq4jPkQ2Sgk3IU8iU85G4Haz7hscX8ijQQ/viewform?embedded=true',
 };
 
 /**
