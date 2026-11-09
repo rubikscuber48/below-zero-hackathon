@@ -63,7 +63,7 @@ export const FAQ: React.FC = () => {
     <section id="faq" className="section bg-void text-paper">
       <div className="wrap">
         <SectionHead
-          depth="90"
+          depth="09"
           label="FAQ"
           title={['Questions,', 'answered.']}
           intro={

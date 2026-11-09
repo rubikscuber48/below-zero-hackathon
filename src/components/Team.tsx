@@ -30,7 +30,7 @@ export const Team: React.FC = () => (
   <section id="team" className="section bg-paper text-void">
     <div className="wrap">
       <SectionHead
-        depth="80"
+        depth="08"
         label="Team"
         title={['Organized by', 'Lost in Stars.']}
         intro={<p>An independent creative and technology movement that has run two hackathons.</p>}

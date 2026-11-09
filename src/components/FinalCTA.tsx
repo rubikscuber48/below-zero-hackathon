@@ -17,13 +17,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
   return (
     <section ref={ref} id="register" className="section bg-sun text-void overflow-hidden">
       <div className="wrap">
-        <p className="flex items-baseline gap-4 mb-8">
-          <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)]" aria-hidden="true">
-            −273°
-          </span>
-          <span className="label">Absolute zero</span>
-        </p>
-        <h2 className="display text-[21.5vw] 2xl:text-[min(21.5vw,26rem)] leading-[0.8]">
+        <h2 className="display text-[16vw] md:text-[10.5vw] 2xl:text-[10rem] leading-[0.86]">
           <Lines lines={['Ready', 'to build?']} />
         </h2>
 
@@ -36,7 +30,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
             className="col-span-5 sm:col-span-3 lg:col-span-2 rounded-full w-full max-w-44"
           />
           <p className="display col-span-12 sm:col-span-9 lg:col-span-5 text-[clamp(2.5rem,4.2vw,4.5rem)] leading-[0.95]">
-            24 hours. <span className="whitespace-nowrap">Classes 8–12.</span> {EVENT.dateLabel} in Delhi NCR. Free to enter.
+            24 hours. <span className="whitespace-nowrap">Classes 8–12.</span> <span className="whitespace-nowrap">{EVENT.dateLabel}</span> in Delhi NCR. Free to enter.
           </p>
           <div className="col-span-12 lg:col-span-5 flex flex-col gap-4 lg:items-end lg:self-end">
             <button

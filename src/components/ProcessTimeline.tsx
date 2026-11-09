@@ -13,7 +13,7 @@ export const ProcessTimeline: React.FC = () => {
     <section id="process" className="section bg-sun text-void">
       <div className="wrap">
         <SectionHead
-          depth="30"
+          depth="03"
           label="Timeline"
           accent="text-void"
           title={['From first', 'thought to', 'live demo.']}

@@ -23,7 +23,7 @@ export const Manifesto: React.FC = () => {
         <div className="col-span-12 lg:col-span-7">
           <div className="flex items-baseline gap-4 border-t border-void/30 pt-5">
             <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)] text-flare" aria-hidden="true">
-              −10°
+              −01
             </span>
             <p className="label">Manifesto</p>
           </div>

@@ -67,9 +67,6 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick }) =
       {/* The zero line. Everything else on the page sits below it. */}
       <div className="relative mt-3" aria-hidden="true">
         <div className="h-1 bg-flare" />
-        <span className="display absolute right-[clamp(1.25rem,4.5vw,4.5rem)] -top-[0.55rem] bg-void text-flare px-2 text-[1.5rem] leading-none">
-          0°
-        </span>
         <div
           className="h-3"
           style={{

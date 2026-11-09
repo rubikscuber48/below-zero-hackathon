@@ -29,7 +29,7 @@ export const Lines: React.FC<{ lines: string[]; className?: string; delay?: numb
   </motion.span>
 );
 
-/** Each section is ten degrees colder than the last, starting from the zero line in the hero. */
+/** Sections count downward from the zero line in the hero. */
 export const SectionHead: React.FC<{
   depth: string;
   label: string;
@@ -41,7 +41,7 @@ export const SectionHead: React.FC<{
   <header className={`grid grid-cols-12 gap-x-6 gap-y-8 border-t pt-5 mb-12 lg:mb-20 ${rule}`}>
     <div className="col-span-12 lg:col-span-2 flex items-baseline gap-4 lg:block">
       <div className={`display text-[clamp(3.5rem,6.5vw,6.5rem)] ${accent}`} aria-hidden="true">
-        −{depth}°
+        −{depth}
       </div>
       <p className="label lg:mt-3">{label}</p>
     </div>

@@ -297,7 +297,7 @@ export const Tracks: React.FC<TracksProps> = ({ onSelectTrackForRsvp }) => (
   <section id="tracks" className="section bg-void text-paper">
     <div className="wrap">
       <SectionHead
-        depth="20"
+        depth="02"
         label="Tracks"
         title={['Five tracks.', 'Pick one.']}
         intro={<p>Choose the domain that excites you, form a team, and build working software.</p>}
