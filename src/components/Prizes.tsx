@@ -1,6 +1,32 @@
 import React from 'react';
 import { Reveal } from '../utils/motion';
 import { FourPointStar, SectionHead } from './Editorial';
+import { PRIZES } from '../data/event';
+
+/** Amount always shows, marked as pending until set. Winner and sponsor appear only once confirmed. */
+const PrizeFacts: React.FC<{ prize: { amount: string; winner: string; sponsor: string }; className?: string }> = ({
+  prize,
+  className = '',
+}) => (
+  <dl className={`label ${className}`}>
+    <div className="flex flex-wrap gap-x-2">
+      <dt>Prize amount:</dt>
+      <dd>{prize.amount || 'To be announced'}</dd>
+    </div>
+    {prize.winner && (
+      <div className="flex flex-wrap gap-x-2 mt-1">
+        <dt>Winner:</dt>
+        <dd>{prize.winner}</dd>
+      </div>
+    )}
+    {prize.sponsor && (
+      <div className="flex flex-wrap gap-x-2 mt-1">
+        <dt>Sponsored by:</dt>
+        <dd>{prize.sponsor}</dd>
+      </div>
+    )}
+  </dl>
+);
 
 const CHAMPION_PERKS = [
   'Cast grand trophy and official Lost in Stars winner honors',
@@ -13,11 +39,13 @@ const RUNNERS = [
   {
     place: 'Second place',
     title: 'First runner-up',
+    details: PRIZES.firstRunnerUp,
     perks: ['First runner-up trophy', 'Certificate of High Distinction', 'Partner perks and tool credits', 'Spotlight in the Lost in Stars Innovation Archive'],
   },
   {
     place: 'Third place',
     title: 'Second runner-up',
+    details: PRIZES.secondRunnerUp,
     perks: ['Second runner-up trophy', 'Certificate of Outstanding Performance', 'Developer tooling and cloud vouchers', 'Community Builder Collective entry'],
   },
 ];
@@ -34,7 +62,7 @@ export const Prizes: React.FC = () => (
   <section id="prizes" className="section bg-paper text-void">
     <div className="wrap">
       <SectionHead
-        depth="06"
+        depth="07"
         label="Prizes"
         title={['Build it.', 'Earn it.']}
         intro={<p>Every attending builder receives a verified Certificate of Participation.</p>}
@@ -52,7 +80,7 @@ export const Prizes: React.FC = () => (
               <br />
               Champions
             </h3>
-            <p className="label border-t-2 border-flare pt-3 mt-8 text-sun">Cash prize and compute credits: amounts to be announced</p>
+            <PrizeFacts prize={PRIZES.champion} className="border-t-2 border-flare pt-3 mt-8 text-sun" />
             <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 mt-4">
               {CHAMPION_PERKS.map((perk) => (
                 <li key={perk} className="border-t border-paper/30 py-2.5 text-[1.0625rem] font-medium leading-snug">
@@ -70,6 +98,7 @@ export const Prizes: React.FC = () => (
           <Reveal key={r.title} delay={i * 0.08} className="@container bg-paper p-6 sm:p-8">
             <p className="label">{r.place}</p>
             <h3 className="display whitespace-nowrap text-[min(13cqw,6.5rem)] mt-3">{r.title}</h3>
+            <PrizeFacts prize={r.details} className="mt-3" />
             <ul className="mt-5 text-[1.0625rem] font-medium leading-relaxed">
               {r.perks.map((p) => (
                 <li key={p}>{p}</li>

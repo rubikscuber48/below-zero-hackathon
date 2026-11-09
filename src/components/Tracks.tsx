@@ -7,7 +7,7 @@ import { playSfx } from '../utils/audio';
 import { SectionHead } from './Editorial';
 
 interface TracksProps {
-  onSelectTrackForRsvp: (trackTitle: string) => void;
+  onRegister: () => void;
 }
 
 /* One drawing per track, each from that discipline's own vocabulary. */
@@ -207,20 +207,20 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
     <Reveal delay={index % 2 ? 0.08 : 0} className={`col-span-12 ${track.span} flex`}>
       <article
         data-cursor="arena"
-        className={`@container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[34rem] ${track.tone}`}
+        className={`@container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[30rem] ${track.id === 'voice-assistants' ? 'lg:min-h-[37rem] xl:min-h-[41rem]' : 'lg:min-h-[43rem] xl:min-h-[47rem] 2xl:min-h-[49rem]'} ${open ? 'is-open' : ''} ${track.tone}`}
       >
         <div className={`track-art absolute pointer-events-none ${track.artBox}`} aria-hidden="true">
           {track.art}
         </div>
 
         <div className="relative">
-          <div className="track-number display text-[clamp(6rem,24cqw,11rem)] leading-[0.8]" aria-hidden="true">
+          <div className="track-number display text-[clamp(5rem,20cqw,9rem)] leading-[0.9]" aria-hidden="true">
             {track.number}
           </div>
           <p className="label mt-3 max-w-[62cqw]">{track.tagline}</p>
         </div>
 
-        <div className="relative mt-auto pt-14">
+        <div className="relative mt-auto pt-8">
           <h3 className={`display ${track.titleSize}`}>
             {track.titleLines.map((l) => (
               <span key={l} className="block">
@@ -228,15 +228,18 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
               </span>
             ))}
           </h3>
-          <p className="body-copy mt-4 font-medium">{track.description}</p>
-
-          <ul className="flex flex-wrap gap-2 mt-5" aria-label="Recommended tools">
-            {track.tools.map((tool) => (
-              <li key={tool} className={`border px-2.5 py-1 text-[0.875rem] font-semibold ${track.rule}`}>
-                {tool}
-              </li>
-            ))}
-          </ul>
+          <div className="track-reveal">
+            <div>
+              <p className="body-copy mt-4 font-medium">{track.description}</p>
+              <ul className="flex flex-wrap gap-2 mt-5" aria-label="Recommended tools">
+                {track.tools.map((tool) => (
+                  <li key={tool} className={`label border px-2.5 py-1 normal-case ${track.rule}`}>
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
           <button
             type="button"
@@ -282,7 +285,7 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
                   onClick={onRsvp}
                   className={`label mt-3 min-h-12 px-4 border-2 cursor-pointer ${track.rule}`}
                 >
-                  Register for this track
+                  Register now
                 </button>
               </motion.div>
             )}
@@ -293,18 +296,18 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
   );
 };
 
-export const Tracks: React.FC<TracksProps> = ({ onSelectTrackForRsvp }) => (
+export const Tracks: React.FC<TracksProps> = ({ onRegister }) => (
   <section id="tracks" className="section bg-void text-paper">
     <div className="wrap">
       <SectionHead
-        depth="02"
+        depth="03"
         label="Tracks"
         title={['Five tracks.', 'Pick one.']}
         intro={<p>Choose the domain that excites you, form a team, and build working software.</p>}
       />
       <div className="grid grid-cols-12 gap-px bg-paper/30 border border-paper/30">
         {TRACKS.map((track, i) => (
-          <TrackPanel key={track.id} track={track} index={i} onRsvp={() => onSelectTrackForRsvp(track.title)} />
+          <TrackPanel key={track.id} track={track} index={i} onRsvp={onRegister} />
         ))}
       </div>
     </div>

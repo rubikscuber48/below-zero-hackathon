@@ -48,8 +48,8 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
   <section id="sponsors" className="section bg-void text-paper">
     <div className="wrap">
       <SectionHead
-        depth="07"
-        label="Sponsors"
+        depth="08"
+        label="Sponsors and partners"
         title={['Back the next', 'builders.']}
         intro={<p>BELOW ZERO is free for students. Sponsorship pays for connectivity, meals, compute, awards, and certificates.</p>}
       />
@@ -81,7 +81,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
                 onPartnerClick();
               }}
             >
-              Request prospectus
+              Email for prospectus
             </button>
           </div>
         </article>

@@ -58,3 +58,24 @@ export const FourPointStar: React.FC<{ className?: string }> = ({ className = ''
     <path d="M12 0c1 7 4 10 12 12-8 2-11 5-12 12-1-7-4-10-12-12 8-2 11-5 12-12z" />
   </svg>
 );
+
+/** Compact heading for sections that keep their title beside the content. */
+export const SideHead: React.FC<{
+  depth: string;
+  label: string;
+  title: string[];
+  intro?: React.ReactNode;
+}> = ({ depth, label, title, intro }) => (
+  <header className="lg:sticky lg:top-24">
+    <div className="flex items-baseline gap-4 border-t border-current/30 pt-5">
+      <span className="display text-[clamp(3rem,5vw,5rem)] text-flare" aria-hidden="true">
+        −{depth}
+      </span>
+      <p className="label">{label}</p>
+    </div>
+    <h2 className="display text-[clamp(3.25rem,5.4vw,6.25rem)] mt-6">
+      <Lines lines={title} />
+    </h2>
+    {intro && <div className="body-copy mt-5">{intro}</div>}
+  </header>
+);

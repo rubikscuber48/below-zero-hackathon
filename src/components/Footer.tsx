@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 import { EVENT, SOCIALS } from '../data/event';
+import { isSoundEnabled, toggleSound } from '../utils/audio';
 import logo from '../assets/lost_in_stars_logo.webp';
 import { easeSnappy } from '../utils/motion';
 
 export const Footer: React.FC = () => {
   const [legalModalContent, setLegalModalContent] = useState<'privacy' | 'terms' | null>(null);
 
+  const [soundOn, setSoundOn] = useState(isSoundEnabled);
+  const liveSocials = SOCIALS.filter((link) => link.href);
+
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'Manifesto', href: '#manifesto' },
+    { name: 'Event brief', href: '#manifesto' },
+    { name: 'The challenge', href: '#challenge' },
     { name: 'Tracks', href: '#tracks' },
-    { name: 'Timeline', href: '#process' },
+    { name: 'How it works', href: '#how' },
+    { name: 'Schedule', href: '#process' },
     { name: 'Judging', href: '#judging' },
-    { name: 'Experience', href: '#experience' },
     { name: 'Prizes', href: '#prizes' },
     { name: 'Sponsors', href: '#sponsors' },
     { name: 'Team', href: '#team' },
     { name: 'FAQ', href: '#faq' },
+    { name: 'Register', href: '#register' },
   ];
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -34,15 +39,12 @@ export const Footer: React.FC = () => {
       <div className="wrap pt-14 pb-8">
         <div className="grid grid-cols-12 gap-x-6 gap-y-10">
           <div className="col-span-12 lg:col-span-5">
-            <div className="flex items-center gap-4">
-              <img src={logo} alt="Lost in Stars logo" loading="lazy" width={80} height={80} className="w-20 h-20 rounded-full" />
+            <p className="display text-[clamp(3.5rem,7vw,7rem)]">Below Zero</p>
+            <p className="body-copy mt-2">Lost ideas, found innovation.</p>
+            <div className="flex items-center gap-3 mt-5">
+              <img src={logo} alt="Lost in Stars logo" loading="lazy" width={56} height={56} className="w-14 h-14 rounded-full" />
               <p className="label">Organized by Lost in Stars</p>
             </div>
-            <p className="display text-[clamp(3rem,5vw,5rem)] mt-5">
-              Lost ideas,
-              <br />
-              found innovation.
-            </p>
           </div>
 
           <nav aria-label="Footer" className="col-span-6 lg:col-span-3">
@@ -58,18 +60,20 @@ export const Footer: React.FC = () => {
             </ul>
           </nav>
 
-          <div className="col-span-6 lg:col-span-2">
-            <h2 className="label text-sun">Social</h2>
-            <ul className="mt-3">
-              {SOCIALS.map((s) => (
-                <li key={s.name}>
-                  <a href={s.href} className="inline-flex items-center min-h-11 font-medium hover:text-sun">
-                    {s.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {liveSocials.length > 0 && (
+            <div className="col-span-6 lg:col-span-2">
+              <h2 className="label text-sun">Social</h2>
+              <ul className="mt-3">
+                {liveSocials.map((link) => (
+                  <li key={link.name}>
+                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-11 font-medium hover:text-sun">
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="col-span-12 lg:col-span-2">
             <h2 className="label text-sun">Contact</h2>
@@ -84,7 +88,15 @@ export const Footer: React.FC = () => {
 
         <div className="mt-12 pt-4 border-t border-paper/30 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 text-[0.9375rem]">
           <p>© 2026 Lost in Stars</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6">
+            <button
+              type="button"
+              aria-pressed={soundOn}
+              onClick={() => setSoundOn(toggleSound())}
+              className="min-h-11 cursor-pointer hover:text-sun"
+            >
+              Sounds {soundOn ? 'on' : 'off'}
+            </button>
             <button type="button" onClick={() => setLegalModalContent('privacy')} className="min-h-11 cursor-pointer hover:text-sun">
               Privacy Policy
             </button>
@@ -127,7 +139,7 @@ export const Footer: React.FC = () => {
                 {legalModalContent === 'privacy' ? (
                   <>
                     <p>
-                      Below Zero is committed to protecting the privacy of participating students and their guardians. Information collected through RSVP forms (student names, educational institutions, grades, email addresses) is used strictly for event coordination, team formation, and hackathon communications.
+                      Below Zero is committed to protecting the privacy of participating students and their guardians. Information collected through registration forms (student names, educational institutions, grades, email addresses) is used strictly for event coordination, team formation, and hackathon communications.
                     </p>
                     <p>
                       We do not sell, rent, or distribute personal information to third-party commercial brokers. All data handling complies with student data privacy ethics. For queries, contact official.lostinstars@gmail.com.

@@ -18,6 +18,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
   return (
     <section ref={ref} id="register" className="grid lg:grid-cols-12 lg:min-h-[42rem]">
       <div className="lg:col-span-7 bg-sun text-void flex flex-col justify-center py-16 lg:py-24 pl-[clamp(1.25rem,4.5vw,4.5rem)] pr-[clamp(1.25rem,4vw,4rem)]">
+        <p className="label mb-5">Registration</p>
         <h2 className="display text-[clamp(4.25rem,9vw,9.5rem)]">
           <Lines lines={['Ready', 'to build?']} />
         </h2>
@@ -34,7 +35,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
               onRegisterClick();
             }}
           >
-            Register your interest
+            Register now
           </button>
           <a
             href={`mailto:${EVENT.email}?subject=BELOW%20ZERO%20INQUIRY`}

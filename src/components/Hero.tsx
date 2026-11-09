@@ -15,10 +15,10 @@ interface HeroProps {
 }
 
 const FACTS = [
-  { label: 'Duration', value: '24 hours', note: 'Non-stop' },
+  { label: 'Event', value: 'Student hackathon', note: 'Classes 8–12' },
   { label: 'Date', value: EVENT.dateLabel, note: 'Final date to be confirmed' },
-  { label: 'Location', value: 'Delhi NCR', note: 'Venue shared with accepted teams' },
-  { label: 'Event type', value: 'In-person', note: 'Student hackathon, Classes 8–12' },
+  { label: 'Duration', value: '24 hours', note: 'Non-stop' },
+  { label: 'Format', value: 'Offline', note: 'In person, Delhi NCR' },
 ];
 
 const titleClass =
@@ -62,6 +62,9 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
       className="relative overflow-hidden bg-void text-paper min-h-[calc(100svh-4rem)] flex flex-col"
     >
       <div className="absolute inset-0 starfield opacity-70" aria-hidden="true" />
+      <div className="absolute inset-0 overflow-hidden opacity-45" aria-hidden="true">
+        <div className="star-drift starfield" />
+      </div>
 
       <div className="hero-stage @container relative flex-1 flex flex-col overflow-hidden">
         <motion.div
@@ -143,15 +146,14 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
       </motion.div>
 
       <div className="wrap relative grid grid-cols-12 gap-x-6 gap-y-6 py-7">
-        <motion.p {...fadeUp(0.45)} className="display col-span-12 lg:col-span-6 text-[clamp(2.75rem,6vw,6rem)]">
-          Lost ideas,
+        <motion.p {...fadeUp(0.45)} className="display col-span-12 lg:col-span-6 text-[8.6vw] sm:text-[clamp(2.75rem,6vw,4rem)] lg:text-[4.3vw] 2xl:text-[4.25rem]">
+          24 hours. Zero limits.
           <br />
-          found innovation.
+          Build what matters.
         </motion.p>
         <motion.div {...fadeUp(0.55)} className="col-span-12 lg:col-span-6 lg:col-start-7">
           <p className="body-copy">
-            A 24-hour offline hackathon for school students. Free to enter. Bring your ideas and build working
-            software across five tracks.
+            A free, in-person hackathon for school students. Choose one of five tracks and build working software.
           </p>
           <div className="mt-5 flex flex-col sm:flex-row gap-4">
             <button
@@ -162,7 +164,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
                 onRegisterClick();
               }}
             >
-              Register your interest
+              Register now
             </button>
             <button
               type="button"
@@ -185,7 +187,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
       )}
 
       <motion.div {...fadeUp(0.65)} className="relative border-t border-paper/30">
-        <dl className="wrap grid grid-cols-2 lg:grid-cols-4">
+        <dl className="wrap grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
           {FACTS.map((f, i) => (
             <div
               key={f.label}
@@ -194,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
               } ${i < 3 ? 'lg:border-r border-paper/30' : ''} ${i % 2 === 0 ? 'border-r lg:border-r border-paper/30' : ''}`}
             >
               <dt className="label text-sun">{f.label}</dt>
-              <dd className="display text-[clamp(1.5rem,3.3vw,3.5rem)] mt-1.5 whitespace-nowrap">{f.value}</dd>
+              <dd className="display text-[clamp(1.5rem,3.3vw,3.5rem)] mt-1.5 lg:whitespace-nowrap">{f.value}</dd>
               <dd className="text-[0.9375rem] leading-snug mt-1.5 text-paper/80">{f.note}</dd>
             </div>
           ))}

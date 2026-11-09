@@ -13,51 +13,55 @@ export const EVENT = {
    */
   confirmedStart: null as string | null,
   email: 'official.lostinstars@gmail.com',
+  /**
+   * REGISTRATION LINK. Paste the live form URL here (Google Forms, Fillout, etc).
+   * Every Register button opens it. While empty, the buttons explain that
+   * registration has not opened yet.
+   */
+  registrationUrl: '',
+};
+
+/**
+ * Prize details. Leave a field empty until it is confirmed.
+ * An empty amount shows "To be announced". Winner and sponsor rows stay hidden when empty.
+ */
+export const PRIZES = {
+  champion: { amount: '', winner: '', sponsor: '' },
+  firstRunnerUp: { amount: '', winner: '', sponsor: '' },
+  secondRunnerUp: { amount: '', winner: '', sponsor: '' },
 };
 
 /**
  * Timeline phases. `confirmedWindow` is displayed only when filled in.
- * The previous site listed 00H–06H, 06H–14H, 14H–20H and 20H–24H.
+ * The earlier site listed 00H–06H, 06H–14H, 14H–20H and 20H–24H.
  */
 export const PHASES = [
   {
     num: '01',
     word: 'Think',
-    tagline: 'Deconstruct problems and choose a track',
-    description:
-      'Check in, hear the opening keynote and get your track toolchain. Teams find a real problem, set the limits of their MVP and sort out API keys.',
+    description: 'Understand the problem and develop an idea.',
     activity: 'Scope the MVP and commit to a tech stack',
-    deliverables: ['System architecture diagram', 'Repo initialization', 'Tech stack commitment'],
     confirmedWindow: null as string | null,
   },
   {
     num: '02',
     word: 'Build',
-    tagline: 'Core implementation',
-    description:
-      'Uninterrupted engineering. Teams build models, interfaces, backends and agent workflows with senior mentors on the floor.',
+    description: 'Create your solution during the hackathon.',
     activity: 'Get the core loop running end to end',
-    deliverables: ['Functional core', 'Database integration', 'End-to-end execution flow'],
     confirmedWindow: null as string | null,
   },
   {
     num: '03',
     word: 'Test',
-    tagline: 'Stress tests and edge cases',
-    description:
-      'Where a script becomes software. Run benchmarks, fix leaks, tighten response times and verify your deployment.',
+    description: 'Refine, debug, and improve your project.',
     activity: 'Break it, then fix what broke',
-    deliverables: ['Passing automated tests', 'Zero critical crashes', 'Offline fallback logic'],
     confirmedWindow: null as string | null,
   },
   {
     num: '04',
     word: 'Present',
-    tagline: 'Live proof over decks',
-    description:
-      'No presentation slides. Teams run live code in front of industry judges and answer for what they built.',
-    activity: 'Demo working software to the jury',
-    deliverables: ['Live browser or terminal demo', 'Public open-source repo', 'Code execution review'],
+    description: 'Present your solution to the judges.',
+    activity: 'Demo working software live',
     confirmedWindow: null as string | null,
   },
 ];
@@ -117,8 +121,10 @@ export const ORGANIZERS: Person[] = [
   },
 ];
 
-/** These were placeholders on the previous site. Replace each href with the real profile. */
-export const SOCIALS = ['Instagram', 'X', 'GitHub', 'Discord'].map((name) => ({
-  name,
-  href: `mailto:${EVENT.email}?subject=COMMUNITY_ACCESS`,
-}));
+/** Add each profile URL once it is verified. Links without a URL stay hidden. */
+export const SOCIALS = [
+  { name: 'Instagram', href: '' },
+  { name: 'X', href: '' },
+  { name: 'GitHub', href: '' },
+  { name: 'Discord', href: '' },
+];

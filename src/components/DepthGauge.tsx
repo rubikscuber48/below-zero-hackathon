@@ -4,19 +4,20 @@ import { playSfx } from '../utils/audio';
 
 const STOPS = [
   { id: 'hero', depth: '0', name: 'Top' },
-  { id: 'manifesto', depth: '−01', name: 'Manifesto' },
-  { id: 'tracks', depth: '−02', name: 'Tracks' },
-  { id: 'process', depth: '−03', name: 'Timeline' },
-  { id: 'judging', depth: '−04', name: 'Judging' },
-  { id: 'experience', depth: '−05', name: 'Experience' },
-  { id: 'prizes', depth: '−06', name: 'Prizes' },
-  { id: 'sponsors', depth: '−07', name: 'Sponsors' },
-  { id: 'team', depth: '−08', name: 'Team' },
-  { id: 'faq', depth: '−09', name: 'FAQ' },
-  { id: 'register', depth: '−10', name: 'Register' },
+  { id: 'manifesto', depth: '−01', name: 'Event brief' },
+  { id: 'challenge', depth: '−02', name: 'The challenge' },
+  { id: 'tracks', depth: '−03', name: 'Tracks' },
+  { id: 'how', depth: '−04', name: 'How it works' },
+  { id: 'process', depth: '−05', name: 'Event timeline' },
+  { id: 'judging', depth: '−06', name: 'Judging criteria' },
+  { id: 'prizes', depth: '−07', name: 'Prizes' },
+  { id: 'sponsors', depth: '−08', name: 'Sponsors and partners' },
+  { id: 'team', depth: '−09', name: 'Team' },
+  { id: 'faq', depth: '−10', name: 'FAQ' },
+  { id: 'register', depth: '−11', name: 'Registration' },
 ];
 
-const LIGHT = new Set(['manifesto', 'process', 'judging', 'prizes', 'team', 'register']);
+const LIGHT = new Set(['manifesto', 'challenge', 'how', 'process', 'judging', 'prizes', 'team', 'faq']);
 
 /** The section at the middle of the screen. */
 const useActiveStop = () => {
@@ -72,10 +73,7 @@ export const DepthGauge: React.FC = () => {
 };
 
 /** Phone-only registration bar. Stays out of the way on the hero and final sections, which have their own buttons. */
-export const MobileRegisterBar: React.FC<{ isRegistered: boolean; onClick: () => void }> = ({
-  isRegistered,
-  onClick,
-}) => {
+export const MobileRegisterBar: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const active = useActiveStop();
   const show = active !== 'hero' && active !== 'register';
 
@@ -99,7 +97,7 @@ export const MobileRegisterBar: React.FC<{ isRegistered: boolean; onClick: () =>
               }}
               className="display text-[1.375rem] leading-none bg-sun text-void h-12 px-5 w-full cursor-pointer"
             >
-              {isRegistered ? 'View your pass' : 'Register your interest'}
+              Register now
             </button>
           </div>
         </motion.div>

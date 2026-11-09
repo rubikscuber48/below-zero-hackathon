@@ -13,7 +13,7 @@ import {
   Eye
 } from 'lucide-react';
 import { easeSnappy } from '../utils/motion';
-import { SectionHead } from './Editorial';
+import { SideHead } from './Editorial';
 import { playSfx } from '../utils/audio';
 
 interface Criterion {
@@ -128,16 +128,23 @@ export const Judging: React.FC = () => {
 
   return (
     <section id="judging" className="section bg-paper text-void">
-      <div className="wrap">
-        <SectionHead
-          depth="04"
-          label="Judging"
-          title={['How you', 'are judged.']}
-          intro={<p>Six published criteria, applied during your live demo. Bars show each one's share of the score.</p>}
-        />
+      <div className="wrap grid grid-cols-12 gap-x-6 gap-y-10">
+        <div className="col-span-12 lg:col-span-4">
+          <SideHead
+            depth="06"
+            label="Judging criteria"
+            title={['How you', 'are judged.']}
+            intro={
+              <>
+                <span className="label inline-block bg-sun px-2 py-1 mb-3">Proposed</span>
+                <p>These criteria and weights are suggestions until officially confirmed.</p>
+              </>
+            }
+          />
+        </div>
 
-        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
-          <ul className="col-span-12 lg:col-span-6 border-t border-void">
+        <div className="col-span-12 lg:col-span-8 grid xl:grid-cols-2 gap-x-10 gap-y-8">
+          <ul className="border-t border-void self-start">
             {criteria.map((item, idx) => {
               const isSelected = selectedIdx === idx;
               return (
@@ -150,13 +157,11 @@ export const Judging: React.FC = () => {
                       playSfx('hover');
                       setSelectedIdx(idx);
                     }}
-                    className={`w-full text-left px-3 py-3 cursor-pointer transition-colors ${
-                      isSelected ? 'bg-void text-paper' : 'hover:bg-sun'
-                    }`}
+                    className={`w-full text-left px-3 py-3 cursor-pointer transition-colors ${isSelected ? 'bg-void text-paper' : 'hover:bg-sun'}`}
                   >
                     <span className="flex items-baseline justify-between gap-4">
-                      <span className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-none">{item.title}</span>
-                      <span className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-none">{item.weight}</span>
+                      <span className="display text-[clamp(1.5rem,2.2vw,2.125rem)]">{item.title}</span>
+                      <span className="display text-[clamp(1.5rem,2.2vw,2.125rem)]">{item.weight}</span>
                     </span>
                     <span className="block h-2 mt-2 bg-flare" style={{ width: `${parseInt(item.weight, 10) * 4}%` }} />
                   </button>
@@ -165,7 +170,7 @@ export const Judging: React.FC = () => {
             })}
           </ul>
 
-          <div id="judging-detail" aria-live="polite" className="col-span-12 lg:col-span-6 lg:pl-10">
+          <div id="judging-detail" aria-live="polite">
             <AnimatePresence mode="wait">
               <motion.div
                 key={current.id}
@@ -174,15 +179,14 @@ export const Judging: React.FC = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25, ease: easeSnappy }}
               >
-                <p className="display text-[clamp(2.25rem,3.6vw,3.75rem)] leading-[0.98]">{current.question}</p>
-                <p className="body-copy mt-6">{current.details}</p>
-                <p className="label mt-7">Judges check for</p>
+                <p className="display text-[clamp(1.875rem,2.6vw,2.625rem)]">{current.question}</p>
+                <p className="label mt-6">Judges check for</p>
                 <ul className="mt-2 text-[1.0625rem] font-medium leading-relaxed">
                   {current.rubric.map((point) => (
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
-                <div className="mt-7 bg-sun p-5">
+                <div className="mt-6 bg-sun p-5">
                   <p className="label">Tip for builders</p>
                   <p className="mt-1.5 text-[1.0625rem] font-medium leading-snug">{current.proTip}</p>
                 </div>

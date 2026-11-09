@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Menu, X, Volume2, VolumeX, Ticket } from 'lucide-react';
-import { isSoundEnabled, toggleSound, playSfx } from '../utils/audio';
+import { Menu, X } from 'lucide-react';
+import { playSfx } from '../utils/audio';
 import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
 
 interface NavbarProps {
   onRegisterClick: () => void;
-  isRegistered: boolean;
-  onPassFinderClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  onRegisterClick,
-  isRegistered,
-  onPassFinderClick,
-}) => {
+export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [soundOn, setSoundOn] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('hero');
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -27,24 +19,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   });
 
   const navLinks = [
-    { name: 'Manifesto', href: '#manifesto', id: 'manifesto' },
     { name: 'Tracks', href: '#tracks', id: 'tracks' },
-    { name: 'Timeline', href: '#process', id: 'process' },
-    { name: 'Judging', href: '#judging', id: 'judging' },
-    { name: 'Prizes', href: '#prizes', id: 'prizes' },
-    { name: 'Sponsors', href: '#sponsors', id: 'sponsors' },
-    { name: 'Team', href: '#team', id: 'team' },
+    { name: 'About', href: '#manifesto', id: 'manifesto' },
+    { name: 'Schedule', href: '#process', id: 'process' },
     { name: 'FAQ', href: '#faq', id: 'faq' },
   ];
 
   useEffect(() => {
-    setSoundOn(isSoundEnabled());
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
     // Section scroll observer for active indicator
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,21 +38,15 @@ export const Navbar: React.FC<NavbarProps> = ({
       { rootMargin: '-48% 0px -50% 0px' }
     );
 
-    [...navLinks.map((link) => link.id), 'hero', 'experience', 'register'].forEach((id) => {
+    ['hero', 'manifesto', 'challenge', 'tracks', 'how', 'process', 'judging', 'prizes', 'sponsors', 'team', 'faq', 'register'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
   }, []);
-
-  const handleToggleSound = () => {
-    const newState = toggleSound();
-    setSoundOn(newState);
-  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => {
     e.preventDefault();
@@ -87,13 +62,11 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  const primaryLabel = isRegistered ? 'View pass' : 'Register';
   const handlePrimary = () => {
     playSfx('click');
     setMobileMenuOpen(false);
-    isRegistered ? onPassFinderClick() : onRegisterClick();
+    onRegisterClick();
   };
-  const iconBtn = 'w-11 h-11 flex items-center justify-center cursor-pointer hover:text-sun transition-colors';
 
   return (
     <header className="sticky top-0 z-50 bg-void text-paper border-b border-paper/30">
@@ -104,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span className="display hidden min-[360px]:inline text-[1.75rem] leading-none whitespace-nowrap">Below Zero</span>
         </a>
 
-        <nav aria-label="Primary" className="hidden xl:flex items-center gap-6">
+        <nav aria-label="Primary" className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -121,16 +94,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         <div className="flex items-center gap-1">
-          <button type="button" onClick={handleToggleSound} aria-pressed={soundOn} aria-label="Interface sounds" className={`hidden xl:flex ${iconBtn}`}>
-            {soundOn ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-          </button>
           <button
             type="button"
             onClick={handlePrimary}
-            className="display text-[1.25rem] leading-none bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors inline-flex items-center gap-2"
+            className="display text-[1.125rem] leading-none bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors"
           >
-            {isRegistered && <Ticket className="w-4 h-4" />}
-            {primaryLabel}
+            Register
           </button>
           <button
             type="button"
@@ -141,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
-            className={`xl:hidden ml-1 ${iconBtn}`}
+            className="md:hidden ml-1 w-11 h-11 flex items-center justify-center cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -156,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             animate={{ height: 'auto' }}
             exit={{ height: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="xl:hidden overflow-hidden border-t border-paper/30 max-h-[calc(100svh-4rem)] overflow-y-auto"
+            className="md:hidden overflow-hidden border-t border-paper/30 max-h-[calc(100svh-4rem)] overflow-y-auto"
           >
             <nav aria-label="Mobile" className="wrap py-3">
               {navLinks.map((link) => (
@@ -169,11 +138,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {link.name}
                 </a>
               ))}
-              <div className="flex gap-2 pt-3">
-                <button type="button" onClick={handleToggleSound} aria-pressed={soundOn} className="label min-h-12 flex-1 border border-paper/40 inline-flex items-center justify-center gap-2">
-                  {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />} Sounds {soundOn ? 'on' : 'off'}
-                </button>
-              </div>
             </nav>
           </motion.div>
         )}

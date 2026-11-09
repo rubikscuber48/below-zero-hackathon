@@ -25,7 +25,7 @@ export const Manifesto: React.FC = () => {
             <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)] text-flare" aria-hidden="true">
               −01
             </span>
-            <p className="label">Manifesto</p>
+            <p className="label">Event brief</p>
           </div>
 
           <h2 className="display text-[clamp(4rem,10.5vw,11rem)] mt-8">
