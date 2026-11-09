@@ -332,6 +332,33 @@
   transform: translateX(0.12em);
 }
 
+.hero-stage {
+  --planet-x: 62%;
+  --planet-r: 44cqw;
+}
+
+@media (min-width: 640px) {
+  .hero-stage {
+    --planet-x: 70%;
+    --planet-r: 23cqw;
+  }
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+}
+
+.twinkle {
+  animation: twinkle 3.6s ease-in-out infinite;
+}
+
+.twinkle-late {
+  animation-delay: 1.5s;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

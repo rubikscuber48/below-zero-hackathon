@@ -12,46 +12,55 @@ interface FinalCTAProps {
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-  const logoRotate = useTransform(scrollYProgress, [0, 1], [-22, 0]);
+  const planetY = useTransform(scrollYProgress, [0, 1], ['35%', '0%']);
+  const logoRotate = useTransform(scrollYProgress, [0, 1], [-18, 0]);
 
   return (
-    <section ref={ref} id="register" className="section bg-sun text-void overflow-hidden">
-      <div className="wrap">
-        <h2 className="display text-[16vw] md:text-[10.5vw] 2xl:text-[10rem] leading-[0.86]">
+    <section ref={ref} id="register" className="grid lg:grid-cols-12 lg:min-h-[42rem]">
+      <div className="lg:col-span-7 bg-sun text-void flex flex-col justify-center py-16 lg:py-24 pl-[clamp(1.25rem,4.5vw,4.5rem)] pr-[clamp(1.25rem,4vw,4rem)]">
+        <h2 className="display text-[clamp(4.25rem,9vw,9.5rem)]">
           <Lines lines={['Ready', 'to build?']} />
         </h2>
-
-        <div className="grid grid-cols-12 gap-x-6 gap-y-8 mt-12 border-t-4 border-void pt-6">
-          <motion.img
-            style={{ rotate: logoRotate }}
-            src={logo}
-            alt="Lost in Stars logo"
-            loading="lazy"
-            className="col-span-5 sm:col-span-3 lg:col-span-2 rounded-full w-full max-w-44"
-          />
-          <p className="display col-span-12 sm:col-span-9 lg:col-span-5 text-[clamp(2.5rem,4.2vw,4.5rem)] leading-[0.95]">
-            24 hours. <span className="whitespace-nowrap">Classes 8–12.</span> <span className="whitespace-nowrap">{EVENT.dateLabel}</span> in Delhi NCR. Free to enter.
-          </p>
-          <div className="col-span-12 lg:col-span-5 flex flex-col gap-4 lg:items-end lg:self-end">
-            <button
-              type="button"
-              className="btn btn-solid-void w-full lg:w-auto text-[1.75rem]! min-h-20! px-10!"
-              onClick={() => {
-                playSfx('click');
-                onRegisterClick();
-              }}
-            >
-              Register your interest
-            </button>
-            <a
-              href={`mailto:${EVENT.email}?subject=BELOW%20ZERO%20INQUIRY`}
-              onClick={() => playSfx('click')}
-              className="label min-h-12 inline-flex items-center underline underline-offset-4"
-            >
-              Contact the organizers
-            </a>
-          </div>
+        <p className="body-copy font-medium mt-6">
+          24 hours, in person in Delhi NCR. For students in Classes 8–12.{' '}
+          <span className="whitespace-nowrap">{EVENT.dateLabel}.</span> Free to enter.
+        </p>
+        <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-4">
+          <button
+            type="button"
+            className="btn btn-solid-void"
+            onClick={() => {
+              playSfx('click');
+              onRegisterClick();
+            }}
+          >
+            Register your interest
+          </button>
+          <a
+            href={`mailto:${EVENT.email}?subject=BELOW%20ZERO%20INQUIRY`}
+            onClick={() => playSfx('click')}
+            className="label min-h-12 inline-flex items-center underline underline-offset-4"
+          >
+            Contact the organizers
+          </a>
         </div>
+      </div>
+
+      {/* The planet from the hero, back above the line */}
+      <div className="lg:col-span-5 relative overflow-hidden bg-void starfield min-h-72" aria-hidden="true">
+        <motion.div
+          style={{ y: planetY }}
+          className="absolute left-1/2 -bottom-[38%] lg:-bottom-[22%] w-[min(120%,44rem)] aspect-square -translate-x-1/2 rounded-full bg-flare"
+        />
+        <motion.img
+          style={{ rotate: logoRotate }}
+          src={logo}
+          alt=""
+          loading="lazy"
+          width={288}
+          height={288}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 sm:w-52 lg:w-72 rounded-full"
+        />
       </div>
     </section>
   );

@@ -73,8 +73,11 @@ export const Footer: React.FC = () => {
 
           <div className="col-span-12 lg:col-span-2">
             <h2 className="label text-sun">Contact</h2>
-            <a href={`mailto:${EVENT.email}`} className="inline-flex items-center min-h-11 mt-3 font-medium break-all hover:text-sun">
-              {EVENT.email}
+            <a href={`mailto:${EVENT.email}`} className="inline-flex items-center min-h-11 mt-3 font-medium [overflow-wrap:anywhere] hover:text-sun">
+              <span>
+                {EVENT.email.split('@')[0]}
+                <wbr />@{EVENT.email.split('@')[1]}
+              </span>
             </a>
           </div>
         </div>

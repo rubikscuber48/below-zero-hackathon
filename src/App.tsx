@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { Navbar } from './components/Navbar';
+import { CinematicIntro } from './components/CinematicIntro';
 import { DepthGauge, MobileRegisterBar } from './components/DepthGauge';
 import { SystemTicker } from './components/SystemTicker';
 import { Hero } from './components/Hero';
@@ -26,6 +27,7 @@ import { CustomCursor } from './components/CustomCursor';
 import { RsvpData } from './types';
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false);
   const [isRsvpOpen, setIsRsvpOpen] = useState(false);
   const [rsvpInitialTrack, setRsvpInitialTrack] = useState('');
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
@@ -74,12 +76,15 @@ export default function App() {
         onPassFinderClick={() => handleOpenRsvp()}
       />
 
+      <CinematicIntro onComplete={() => setIntroDone(true)} />
+
       <DepthGauge />
       <MobileRegisterBar isRegistered={Boolean(registeredPass)} onClick={() => handleOpenRsvp()} />
 
       <main className="flex-grow">
         {/* Hero Section with Countdown Timer and Graphic Showcase */}
         <Hero
+          ready={introDone}
           onRegisterClick={() => handleOpenRsvp()}
           onExploreClick={handleExploreClick}
         />
