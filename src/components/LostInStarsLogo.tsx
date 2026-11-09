@@ -1,6 +1,6 @@
 import React from 'react';
-import lostInStarsLogo from '../assets/lost_in_stars_logo.jpg';
-import lostInStarsPoster from '../assets/lost_in_stars_poster.jpg';
+import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
+import lostInStarsPoster from '../assets/lost_in_stars_poster.webp';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';

@@ -332,10 +332,6 @@
   transform: translateX(0.12em);
 }
 
-.player-compact > :not(button) {
-  display: none;
-}
-
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

@@ -34,7 +34,7 @@ export const Prizes: React.FC = () => (
   <section id="prizes" className="section bg-paper text-void">
     <div className="wrap">
       <SectionHead
-        depth="06"
+        depth="60"
         label="Prizes"
         title={['Build it.', 'Earn it.']}
         intro={<p>Every attending builder receives a verified Certificate of Participation.</p>}

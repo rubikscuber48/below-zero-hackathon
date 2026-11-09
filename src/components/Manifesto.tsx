@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Reveal } from '../utils/motion';
 import { Lines } from './Editorial';
-import poster from '../assets/lost_in_stars_poster.jpg';
+import poster from '../assets/lost_in_stars_poster.webp';
+import posterSmall from '../assets/lost_in_stars_poster-480.webp';
 
 const HIGHLIGHTS = [
   { value: '24', label: 'Hours, in person' },
@@ -22,7 +23,7 @@ export const Manifesto: React.FC = () => {
         <div className="col-span-12 lg:col-span-7">
           <div className="flex items-baseline gap-4 border-t border-void/30 pt-5">
             <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)] text-flare" aria-hidden="true">
-              −01
+              −10°
             </span>
             <p className="label">Manifesto</p>
           </div>
@@ -48,6 +49,9 @@ export const Manifesto: React.FC = () => {
             <motion.img
               style={{ y: imageY, filter: 'url(#void-duotone)' }}
               src={poster}
+              srcSet={`${posterSmall} 480w, ${poster} 742w`}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              decoding="async"
               alt="Lost in Stars graffiti lettering on a field of stars"
               loading="lazy"
               className="w-full h-[110%] -mt-[5%] object-cover"

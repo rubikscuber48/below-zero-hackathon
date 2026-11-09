@@ -130,7 +130,7 @@ export const Judging: React.FC = () => {
     <section id="judging" className="section bg-paper text-void">
       <div className="wrap">
         <SectionHead
-          depth="04"
+          depth="40"
           label="Judging"
           title={['How you', 'are judged.']}
           intro={<p>Six published criteria, applied during your live demo. Bars show each one's share of the score.</p>}

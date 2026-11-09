@@ -36,7 +36,7 @@ const INCLUDED = [
 export const Experience: React.FC = () => (
   <section id="experience" className="section bg-void text-paper">
     <div className="wrap">
-      <SectionHead depth="05" label="Experience" title={['More than', 'a hackathon.']} />
+      <SectionHead depth="50" label="Experience" title={['More than', 'a hackathon.']} />
       <div className="grid grid-cols-12 gap-x-6 gap-y-10">
         <div className="col-span-12 lg:col-span-4">
           <div className="lg:sticky lg:top-24 bg-sun text-void p-6">

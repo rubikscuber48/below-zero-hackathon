@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { MotionConfig } from 'motion/react';
 import { Navbar } from './components/Navbar';
-import { DepthGauge } from './components/DepthGauge';
+import { DepthGauge, MobileRegisterBar } from './components/DepthGauge';
 import { SystemTicker } from './components/SystemTicker';
 import { Hero } from './components/Hero';
 import { Manifesto } from './components/Manifesto';
@@ -22,7 +22,6 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { RsvpModal, RSVP_STORAGE_KEY } from './components/RsvpModal';
 import { PartnerModal } from './components/PartnerModal';
-import { AmbientPlayer } from './components/AmbientPlayer';
 import { CustomCursor } from './components/CustomCursor';
 import { RsvpData } from './types';
 
@@ -76,6 +75,7 @@ export default function App() {
       />
 
       <DepthGauge />
+      <MobileRegisterBar isRegistered={Boolean(registeredPass)} onClick={() => handleOpenRsvp()} />
 
       <main className="flex-grow">
         {/* Hero Section with Countdown Timer and Graphic Showcase */}
@@ -133,9 +133,6 @@ export default function App() {
         isOpen={isPartnerOpen}
         onClose={() => setIsPartnerOpen(false)}
       />
-
-      {/* Floating Soothing Ambient Music Player */}
-      <AmbientPlayer />
     </div>
     </MotionConfig>
   );

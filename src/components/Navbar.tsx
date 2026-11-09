@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Menu, X, Volume2, VolumeX, Music, Ticket } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX, Ticket } from 'lucide-react';
 import { isSoundEnabled, toggleSound, playSfx } from '../utils/audio';
-import { ambientMusic } from '../utils/ambientMusic';
-import lostInStarsLogo from '../assets/lost_in_stars_logo.jpg';
+import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
 
 interface NavbarProps {
   onRegisterClick: () => void;
@@ -18,7 +17,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
-  const [musicPlaying, setMusicPlaying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('hero');
   const { scrollYProgress } = useScroll();
@@ -41,9 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     setSoundOn(isSoundEnabled());
-    const unsub = ambientMusic.subscribe((playing) => {
-      setMusicPlaying(playing);
-    });
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
@@ -68,7 +63,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     });
 
     return () => {
-      unsub();
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
@@ -77,11 +71,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleToggleSound = () => {
     const newState = toggleSound();
     setSoundOn(newState);
-  };
-
-  const handleToggleMusic = () => {
-    playSfx('click');
-    ambientMusic.toggle();
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => {
@@ -132,9 +121,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         <div className="flex items-center gap-1">
-          <button type="button" onClick={handleToggleMusic} aria-pressed={musicPlaying} aria-label="Ambient music" className={`hidden xl:flex ${iconBtn} ${musicPlaying ? 'text-sun' : ''}`}>
-            <Music className="w-5 h-5" />
-          </button>
           <button type="button" onClick={handleToggleSound} aria-pressed={soundOn} aria-label="Interface sounds" className={`hidden xl:flex ${iconBtn}`}>
             {soundOn ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
           </button>
@@ -184,9 +170,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </a>
               ))}
               <div className="flex gap-2 pt-3">
-                <button type="button" onClick={handleToggleMusic} aria-pressed={musicPlaying} className="label min-h-12 flex-1 border border-paper/40 inline-flex items-center justify-center gap-2">
-                  <Music className="w-4 h-4" /> Music {musicPlaying ? 'on' : 'off'}
-                </button>
                 <button type="button" onClick={handleToggleSound} aria-pressed={soundOn} className="label min-h-12 flex-1 border border-paper/40 inline-flex items-center justify-center gap-2">
                   {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />} Sounds {soundOn ? 'on' : 'off'}
                 </button>

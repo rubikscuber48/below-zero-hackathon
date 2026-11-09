@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 import { EVENT, SOCIALS } from '../data/event';
-import logo from '../assets/lost_in_stars_logo.jpg';
+import logo from '../assets/lost_in_stars_logo.webp';
 import { easeSnappy } from '../utils/motion';
 
 export const Footer: React.FC = () => {
@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="bg-void text-paper">
-      <div className="wrap pt-14 pb-28">
+      <div className="wrap pt-14 pb-8">
         <div className="grid grid-cols-12 gap-x-6 gap-y-10">
           <div className="col-span-12 lg:col-span-5">
             <div className="flex items-center gap-4">

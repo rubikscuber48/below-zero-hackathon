@@ -2,7 +2,7 @@ import React from 'react';
 import { Reveal } from '../utils/motion';
 import { LEADERSHIP, ORGANIZERS, Person } from '../data/event';
 import { FourPointStar, SectionHead } from './Editorial';
-import logo from '../assets/lost_in_stars_logo.jpg';
+import logo from '../assets/lost_in_stars_logo.webp';
 
 const PRINCIPLES = [
   { title: 'Zero entry fee', desc: 'Free for all accepted student hackers' },
@@ -30,7 +30,7 @@ export const Team: React.FC = () => (
   <section id="team" className="section bg-paper text-void">
     <div className="wrap">
       <SectionHead
-        depth="08"
+        depth="80"
         label="Team"
         title={['Organized by', 'Lost in Stars.']}
         intro={<p>An independent creative and technology movement that has run two hackathons.</p>}

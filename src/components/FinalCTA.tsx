@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { playSfx } from '../utils/audio';
 import { EVENT } from '../data/event';
 import { Lines } from './Editorial';
-import logo from '../assets/lost_in_stars_logo.jpg';
+import logo from '../assets/lost_in_stars_logo.webp';
 
 interface FinalCTAProps {
   onRegisterClick: () => void;
@@ -17,6 +17,12 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
   return (
     <section ref={ref} id="register" className="section bg-sun text-void overflow-hidden">
       <div className="wrap">
+        <p className="flex items-baseline gap-4 mb-8">
+          <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)]" aria-hidden="true">
+            −273°
+          </span>
+          <span className="label">Absolute zero</span>
+        </p>
         <h2 className="display text-[21.5vw] 2xl:text-[min(21.5vw,26rem)] leading-[0.8]">
           <Lines lines={['Ready', 'to build?']} />
         </h2>
