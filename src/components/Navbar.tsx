@@ -20,7 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [soundOn, setSoundOn] = useState(true);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('manifesto');
+  const [activeSection, setActiveSection] = useState<string>('hero');
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 200,
@@ -62,8 +62,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       { rootMargin: '-48% 0px -50% 0px' }
     );
 
-    navLinks.forEach((link) => {
-      const el = document.getElementById(link.id);
+    [...navLinks.map((link) => link.id), 'hero', 'experience', 'register'].forEach((id) => {
+      const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
@@ -112,7 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="wrap h-16 flex items-center justify-between gap-6">
         <a href="#hero" onClick={(e) => handleNavClick(e, '#hero', 'hero')} className="flex items-center gap-3 shrink-0">
           <img src={lostInStarsLogo} alt="Lost in Stars" width={44} height={44} className="w-11 h-11 rounded-full" />
-          <span className="display text-[1.75rem] leading-none whitespace-nowrap">Below Zero</span>
+          <span className="display hidden min-[360px]:inline text-[1.75rem] leading-none whitespace-nowrap">Below Zero</span>
         </a>
 
         <nav aria-label="Primary" className="hidden xl:flex items-center gap-6">

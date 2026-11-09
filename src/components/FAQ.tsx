@@ -69,7 +69,7 @@ export const FAQ: React.FC = () => {
           intro={
             <p>
               Anything else? Write to
-              <a className="block text-[1rem] underline underline-offset-4 [overflow-wrap:anywhere]" href={`mailto:${EVENT.email}`}>
+              <a className="block py-2.5 text-[1rem] underline underline-offset-4 [overflow-wrap:anywhere]" href={`mailto:${EVENT.email}`}>
                 {EVENT.email}
               </a>
             </p>

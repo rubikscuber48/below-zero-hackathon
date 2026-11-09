@@ -128,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick }) =
             } ${i % 2 === 0 ? 'border-r lg:border-r border-paper/30' : ''}`}
           >
             <dt className="label text-sun">{f.label}</dt>
-            <dd className="display text-[clamp(1.75rem,3.3vw,3.5rem)] mt-1.5 whitespace-nowrap">{f.value}</dd>
+            <dd className="display text-[clamp(1.5rem,3.3vw,3.5rem)] mt-1.5 whitespace-nowrap">{f.value}</dd>
             <dd className="text-[0.9375rem] leading-snug mt-1.5 text-paper/80">{f.note}</dd>
           </div>
         ))}

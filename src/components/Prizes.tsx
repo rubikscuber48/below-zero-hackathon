@@ -87,7 +87,7 @@ export const Prizes: React.FC = () => (
         </div>
         <ul className="grid grid-cols-2 lg:grid-cols-5 gap-px bg-void border border-void">
           {TRACK_AWARDS.map((t) => (
-            <li key={t} className="last:col-span-2 lg:last:col-span-1 bg-flare p-4 min-h-36 flex items-end display text-[clamp(1.5rem,2.6vw,2.625rem)] leading-[0.92]">
+            <li key={t} className="last:col-span-2 lg:last:col-span-1 bg-flare p-4 min-h-36 flex items-end display text-[clamp(1.25rem,2.6vw,2.625rem)] leading-[0.92]">
               {t}
             </li>
           ))}

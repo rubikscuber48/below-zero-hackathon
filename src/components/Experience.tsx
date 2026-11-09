@@ -17,7 +17,7 @@ const ROWS = [
   {
     tag: 'Collaborative',
     title: 'Student maker culture',
-    description: 'Meet high school builders from across Delhi NCR in a safe, high-energy space made for Classes 8–12.',
+    description: 'Meet high school builders from across Delhi NCR in a safe, high-energy space made for Classes 8⁠–⁠12.',
   },
   {
     tag: 'Real demos',

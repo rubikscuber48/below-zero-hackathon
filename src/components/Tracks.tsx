@@ -121,7 +121,7 @@ const TRACKS: TrackDef[] = [
     art: <ModelArt />,
     span: 'lg:col-span-7',
     tone: 'bg-flare text-void',
-    artBox: 'aspect-square right-[3%] top-[3%] w-[26%] sm:w-[44%] max-w-[26rem]',
+    artBox: 'aspect-square right-[3%] top-[3%] w-[26%] sm:w-[34%] max-w-[20rem]',
     titleSize: 'text-[min(18cqw,10rem)]',
     rule: 'border-void',
   },
@@ -139,7 +139,7 @@ const TRACKS: TrackDef[] = [
     art: <WebArt />,
     span: 'lg:col-span-5',
     tone: 'bg-paper text-void',
-    artBox: 'aspect-square right-[2%] top-[3%] w-[26%] sm:w-[48%] max-w-[20rem]',
+    artBox: 'aspect-square right-[2%] top-[3%] w-[26%] sm:w-[34%] max-w-[15rem]',
     titleSize: 'text-[min(16.5cqw,8rem)]',
     rule: 'border-void',
   },
@@ -157,7 +157,7 @@ const TRACKS: TrackDef[] = [
     art: <GameArt />,
     span: 'lg:col-span-5',
     tone: 'bg-sun text-void',
-    artBox: 'aspect-square right-[3%] top-[3%] w-[26%] sm:w-[48%] max-w-[20rem]',
+    artBox: 'aspect-square right-[3%] top-[3%] w-[26%] sm:w-[34%] max-w-[15rem]',
     titleSize: 'text-[min(16.5cqw,8rem)]',
     rule: 'border-void',
   },
@@ -175,7 +175,7 @@ const TRACKS: TrackDef[] = [
     art: <AgentArt />,
     span: 'lg:col-span-7',
     tone: 'bg-void text-paper',
-    artBox: 'aspect-square right-[3%] top-[4%] w-[26%] sm:w-[44%] max-w-[26rem] text-flare',
+    artBox: 'aspect-square right-[3%] top-[4%] w-[26%] sm:w-[34%] max-w-[20rem] text-flare',
     titleSize: 'text-[min(20cqw,11rem)]',
     rule: 'border-paper',
   },
@@ -217,7 +217,7 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
           <div className="track-number display text-[clamp(6rem,24cqw,11rem)] leading-[0.8]" aria-hidden="true">
             {track.number}
           </div>
-          <p className="label mt-3">{track.tagline}</p>
+          <p className="label mt-3 max-w-[62cqw]">{track.tagline}</p>
         </div>
 
         <div className="relative mt-auto pt-14">

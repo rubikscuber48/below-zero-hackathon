@@ -11,7 +11,7 @@ interface SponsorsProps {
 
 const REACH = [
   { label: 'Target participants', value: '300+ students' },
-  { label: 'Eligibility', value: 'Classes 8–12' },
+  { label: 'Eligibility', value: 'Classes 8⁠–⁠12' },
   { label: 'Location', value: 'Delhi NCR' },
   { label: 'Duration', value: '24 hours' },
 ];
@@ -56,20 +56,20 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
 
       {/* Title */}
       <Reveal>
-        <article className="bg-sun text-void grid grid-cols-12 gap-x-6 gap-y-6 p-6 sm:p-10 lg:p-14 min-h-[26rem]">
-          <div className="col-span-12 lg:col-span-8 flex flex-col justify-between gap-8">
+        <article className="bg-sun text-void grid grid-cols-12 lg:gap-x-6 gap-y-6 p-6 sm:p-10 lg:p-14 min-h-[26rem]">
+          <div className="min-w-0 col-span-12 lg:col-span-8 flex flex-col justify-between gap-8">
             <p className="label">Title partner</p>
             {PARTNERS.title.length ? (
               <Logo partner={PARTNERS.title[0]} className="max-h-48 w-auto bg-paper p-4" />
             ) : (
-              <p className="display text-[clamp(4.5rem,11vw,12rem)]">
+              <p className="display text-[clamp(3.25rem,11vw,12rem)]">
                 Your name
                 <br />
                 goes here
               </p>
             )}
           </div>
-          <div className="col-span-12 lg:col-span-4 lg:self-end">
+          <div className="min-w-0 col-span-12 lg:col-span-4 lg:self-end">
             <p className="text-[1.125rem] font-medium leading-snug">
               Naming presence across the 24 hours, the opening keynote, a customized challenge track, and a seat on the jury.
             </p>
@@ -93,9 +93,9 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
           { role: 'Technical infrastructure', scope: 'Foundational AI models, cloud credits, API keys, and hands-on workshops.' },
           { role: 'Education advocate', scope: 'Participation grants, prototyping kits, student awards, and resource stipends.' },
         ].map((tier, i) => (
-          <div key={tier.role} className="bg-void p-6 sm:p-8 flex flex-col justify-between gap-8 min-h-64">
+          <div key={tier.role} className="min-w-0 bg-void p-6 sm:p-8 flex flex-col justify-between gap-8 min-h-64">
             {PARTNERS.main[i] && <Logo partner={PARTNERS.main[i]} className="max-h-24 w-auto bg-paper p-3" />}
-            <h3 className="display text-[clamp(3rem,5.5vw,6rem)]">{tier.role}</h3>
+            <h3 className="display text-[clamp(2.125rem,10.8vw,3rem)] md:text-[clamp(3rem,5.5vw,6rem)]">{tier.role}</h3>
             <p className="body-copy text-paper/85">{tier.scope}</p>
           </div>
         ))}
@@ -142,7 +142,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
         {REACH.map((r) => (
           <div key={r.label}>
             <dt className="label text-paper/80">{r.label}</dt>
-            <dd className="display text-[clamp(2.25rem,3.5vw,3.5rem)] mt-1">{r.value}</dd>
+            <dd className="display text-[clamp(1.625rem,3.5vw,3.5rem)] mt-1">{r.value}</dd>
           </div>
         ))}
       </dl>

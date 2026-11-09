@@ -45,7 +45,7 @@ export const SectionHead: React.FC<{
       </div>
       <p className="label lg:mt-3">{label}</p>
     </div>
-    <h2 className="display col-span-12 lg:col-span-7 text-[clamp(3.75rem,9.5vw,10rem)]">
+    <h2 className="display col-span-12 lg:col-span-7 text-[clamp(3.75rem,9.5vw,9rem)]">
       <Lines lines={title} />
     </h2>
     {intro && <div className="col-span-12 lg:col-span-3 lg:self-end body-copy">{intro}</div>}
