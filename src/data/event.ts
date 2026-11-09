@@ -125,7 +125,7 @@ export const ORGANIZERS: Person[] = [
 
 /** Add each profile URL once it is verified. Links without a URL stay hidden. */
 export const SOCIALS = [
-  { name: 'Instagram', href: '' },
+  { name: 'Instagram', href: 'https://www.instagram.com/lostinstars_official/' },
   { name: 'X', href: '' },
   { name: 'GitHub', href: '' },
   { name: 'Discord', href: '' },
