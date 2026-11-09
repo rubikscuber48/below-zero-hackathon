@@ -21,7 +21,7 @@ const GROUPS: { name: string; items: { q: string; a: string }[] }[] = [
     name: 'Registration',
     items: [
       { q: 'Is there a registration or entry fee?', a: 'No. BELOW ZERO is free for all accepted students. Food, beverages, power, Wi-Fi, mentorship, and swag are covered by Lost in Stars and our partners.' },
-      { q: 'How do I register my interest?', a: 'Use any Register button on this site. If the form is not live yet, email us and we will tell you when it opens.' },
+      { q: 'How do I register my interest?', a: 'Use any Register button on this site to open the registration form.' },
     ],
   },
   {

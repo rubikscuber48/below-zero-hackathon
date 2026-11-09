@@ -18,7 +18,7 @@ export const EVENT = {
    * Every Register button opens it. While empty, the buttons explain that
    * registration has not opened yet.
    */
-  registrationUrl: '',
+  registrationUrl: 'https://forms.gle/EkegWVdGvFhTw3V68',
 };
 
 /**
