@@ -1,0 +1,6 @@
+{
+  "name": "BELOW ZERO 2026 | Student Hackathon by Lost in Stars",
+  "description": "Join BELOW ZERO, a 24-hour student hackathon for Classes 8–12 organized by Lost in Stars. Explore AI Model Making, Web Dev, Game Dev, AI Agents, and Voice Assistants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

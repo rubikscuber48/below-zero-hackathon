@@ -1,0 +1,15 @@
+modules = ["nodejs-20"]
+run = "npm run dev"
+entrypoint = "index.html"
+hidden = [".git", "node_modules"]
+
+[nix]
+channel = "stable-24_05"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+deploymentTarget = "autoscale"
