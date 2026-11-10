@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { m, useScroll, useTransform } from 'motion/react';
 import { Reveal } from '../utils/motion';
 import { Lines } from './Editorial';
+import { sectionInfo } from '../data/sections';
 import poster from '../assets/lost_in_stars_poster.webp';
 import posterSmall from '../assets/lost_in_stars_poster-480.webp';
 
@@ -22,13 +23,13 @@ export const Manifesto: React.FC = () => {
       <div className="wrap grid grid-cols-12 gap-x-6 gap-y-12">
         <div className="col-span-12 lg:col-span-7">
           <div className="flex items-baseline gap-4 border-t border-void/30 pt-5">
-            <span className="display text-[clamp(3.5rem,6.5vw,6.5rem)] text-flare" aria-hidden="true">
-              −01
+            <span className="display text-d4 text-flare" aria-hidden="true">
+              {sectionInfo('manifesto').number}
             </span>
-            <p className="label">Event brief</p>
+            <p className="label">{sectionInfo('manifesto').name}</p>
           </div>
 
-          <h2 className="display text-[clamp(4rem,10.5vw,11rem)] mt-8">
+          <h2 className="display text-d6 mt-8">
             <Lines lines={["Don't just", 'prompt the', 'future.', 'Build it.']} />
           </h2>
 
@@ -46,7 +47,7 @@ export const Manifesto: React.FC = () => {
 
         <div className="col-span-12 lg:col-span-5">
           <div ref={ref} className="overflow-hidden bg-void aspect-[4/5] lg:aspect-auto lg:h-full">
-            <motion.img
+            <m.img
               style={{ y: imageY, filter: 'url(#void-duotone)' }}
               src={poster}
               srcSet={`${posterSmall} 480w, ${poster} 742w`}
@@ -67,9 +68,9 @@ export const Manifesto: React.FC = () => {
 
         <dl className="col-span-12 grid grid-cols-2 lg:grid-cols-4 border-t border-void/30">
           {HIGHLIGHTS.map((h, i) => (
-            <Reveal key={h.label} delay={i * 0.07} className="pt-5 pb-2 lg:border-r last:border-r-0 border-void/30 lg:pl-5 first:pl-0">
-              <dd className="display text-[clamp(4.5rem,9vw,9rem)]">{h.value}</dd>
+            <Reveal key={h.label} delay={i * 0.07} className="flex flex-col-reverse justify-end pt-5 pb-2 lg:border-r last:border-r-0 border-void/30 lg:pl-5 first:pl-0">
               <dt className="label mt-2">{h.label}</dt>
+              <dd className="display text-d5">{h.value}</dd>
             </Reveal>
           ))}
         </dl>

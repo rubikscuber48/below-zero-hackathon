@@ -1,12 +1,20 @@
 /**
- * Single source of truth for facts that are still being finalised.
- * Everything here renders only when it is set, so an unconfirmed detail
- * can never appear on the site by accident.
+ * Single source of truth for event facts. Components and index.html both read
+ * from here, so a change only needs making once.
+ *
+ * vite.config.ts imports this file, so keep it free of image imports.
+ * Portraits and logos belong in people.ts.
  */
 
 export const EVENT = {
-  /** Shown until an exact date is set below. */
+  /** Public address of the site, used for sharing and search tags. Keep the trailing slash. */
+  siteUrl: 'https://rubikscuber48.github.io/below-zero-hackathon/',
+  /** Short date for tight spaces. */
   dateLabel: '14 November',
+  /** Full date for sentences. */
+  dateLong: '14 November 2026',
+  startTimeLabel: '9:00 AM IST',
+  location: 'Delhi NCR',
   /**
    * Set to an ISO string (e.g. '2026-11-14T09:00:00+05:30') once the date is
    * final. The countdown and "Save to calendar" return to the hero when set.
@@ -24,16 +32,6 @@ export const EVENT = {
   /** The same form in Google's embeddable view. Register buttons show it on the site when set. */
   registrationEmbedUrl:
     'https://docs.google.com/forms/d/e/1FAIpQLSc0qr6u0LYtSEN8Kq4jPkQ2Sgk3IU8iU85G4Haz7hscX8ijQQ/viewform?embedded=true',
-};
-
-/**
- * Prize details. Leave a field empty until it is confirmed.
- * An empty amount shows "To be announced". Winner and sponsor rows stay hidden when empty.
- */
-export const PRIZES = {
-  champion: { amount: '', winner: '', sponsor: '' },
-  firstRunnerUp: { amount: '', winner: '', sponsor: '' },
-  secondRunnerUp: { amount: '', winner: '', sponsor: '' },
 };
 
 /**
@@ -68,67 +66,6 @@ export const PHASES = [
     description: 'Present your solution to the judges.',
     activity: 'Demo working software live',
     confirmedWindow: null as string | null,
-  },
-];
-
-export interface Partner {
-  name: string;
-  /** Imported image URL. Rendered untouched, at its own proportions and colours. */
-  logo: string;
-  href?: string;
-}
-
-/** Add confirmed partners here. Empty tiers show an open slot. */
-export const PARTNERS: Record<'title' | 'main' | 'supporting' | 'community', Partner[]> = {
-  title: [],
-  main: [],
-  supporting: [],
-  community: [],
-};
-
-export interface Person {
-  name: string;
-  role: string;
-  description: string;
-  initials: string;
-  /** Imported portrait. Until set, the frame shows the person's initials. */
-  photo?: string;
-}
-
-export const LEADERSHIP: Person[] = [
-  {
-    name: 'Divyansh Mishra',
-    role: 'Lead Organizer & Founder',
-    description:
-      'Leading the mission, architecture, and execution of BELOW ZERO while building the Lost in Stars student builder collective.',
-    initials: 'DM',
-  },
-];
-
-export const ORGANIZERS: Person[] = [
-  {
-    name: 'Ananya',
-    role: 'Creative Director',
-    description: 'Driving visual identity, brand systems, and high-contrast digital experiences.',
-    initials: 'AN',
-  },
-  {
-    name: 'Mahima',
-    role: 'Partnerships & Outreach Co-Lead',
-    description: 'Leading outreach with high schools, technology partners, and builder networks across Delhi NCR.',
-    initials: 'MH',
-  },
-  {
-    name: 'Mayank',
-    role: 'Partnerships & Operations Co-Lead',
-    description: 'Managing partner deliverables, event logistics, and hacker support.',
-    initials: 'MY',
-  },
-  {
-    name: 'Ayushman',
-    role: 'Website Designer',
-    description: 'Designing the BELOW ZERO website.',
-    initials: 'AY',
   },
 ];
 

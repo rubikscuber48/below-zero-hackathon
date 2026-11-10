@@ -15,7 +15,11 @@ export const CountdownTimer: React.FC<{ className?: string }> = ({ className = '
 
   useEffect(() => {
     if (!target) return;
-    const interval = setInterval(() => setNow(Date.now()), 1000);
+    const interval = setInterval(() => {
+      const current = Date.now();
+      setNow(current);
+      if (current >= target) clearInterval(interval);
+    }, 1000);
     return () => clearInterval(interval);
   }, [target]);
 
@@ -32,7 +36,7 @@ export const CountdownTimer: React.FC<{ className?: string }> = ({ className = '
     <div role="timer" aria-label="Time until BELOW ZERO starts" className={`flex items-baseline gap-3 sm:gap-4 ${className}`}>
       {parts.map((part) => (
         <span key={part.label} className="flex items-baseline gap-1">
-          <span className="display text-[1.75rem] leading-none tabular-nums text-sun">{part.value}</span>
+          <span className="display text-d1 leading-none tabular-nums text-sun">{part.value}</span>
           <span className="label">{part.label}</span>
         </span>
       ))}

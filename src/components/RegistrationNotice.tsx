@@ -1,31 +1,25 @@
-import React, { useEffect, useRef } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import React from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, m } from 'motion/react';
 import { X } from 'lucide-react';
 import { EVENT } from '../data/event';
+import { useDialog } from '../hooks/useDialog';
 
 /** Shown by Register buttons until EVENT.registrationUrl is set. */
 export const RegistrationNotice: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useDialog<HTMLButtonElement>(isOpen, onClose);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
-
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-[55] bg-void/80 flex items-end sm:items-center justify-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
-          <motion.div
+          <m.div
             role="dialog"
             aria-modal="true"
             aria-labelledby="registration-title"
@@ -46,7 +40,7 @@ export const RegistrationNotice: React.FC<{ isOpen: boolean; onClose: () => void
               <X className="w-6 h-6" />
             </button>
             <p className="label">Registration</p>
-            <h2 id="registration-title" className="display text-[clamp(3rem,9vw,4.75rem)] mt-3">
+            <h2 id="registration-title" className="display text-d4 mt-3">
               Opening soon
             </h2>
             <p className="body-copy font-medium mt-4">
@@ -58,9 +52,10 @@ export const RegistrationNotice: React.FC<{ isOpen: boolean; onClose: () => void
             >
               Email Lost in Stars
             </a>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };

@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { MotionConfig } from 'motion/react';
+import { Suspense, useEffect, useState } from 'react';
+import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
 import { Navbar } from './components/Navbar';
-import { CinematicIntro } from './components/CinematicIntro';
 import { DepthGauge, MobileRegisterBar } from './components/DepthGauge';
 import { SystemTicker } from './components/SystemTicker';
 import { Hero } from './components/Hero';
@@ -22,20 +21,51 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { Challenge } from './components/Challenge';
 import { HowItWorks } from './components/HowItWorks';
-import { RegistrationNotice } from './components/RegistrationNotice';
 import { RegistrationPanel } from './components/RegistrationPanel';
 import { EVENT } from './data/event';
-import { CustomCursor } from './components/CustomCursor';
+import { safeLazy } from './utils/safeLazy';
+import { scrollToSection } from './utils/scroll';
+
+const CustomCursor = safeLazy(() => import('./components/CustomCursor').then((mod) => mod.CustomCursor));
+const RegistrationNotice = safeLazy(() => import('./components/RegistrationNotice').then((mod) => mod.RegistrationNotice));
+
+const PANEL_STATE = 'bz-registration';
 
 export default function App() {
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(() => window.bzIntro?.done ?? true);
   const [noticeOpen, setNoticeOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [usesMouse] = useState(() => window.matchMedia('(hover: hover) and (pointer: fine)').matches);
 
-  // Every Register button comes through here. Set EVENT.registrationUrl to go live.
+  // The opening animation lives in index.html so it can start before this code arrives.
+  useEffect(() => {
+    const lift = () => setIntroDone(true);
+    window.addEventListener('bz:intro-lift', lift, { once: true });
+    window.bzIntro?.ready();
+    return () => window.removeEventListener('bz:intro-lift', lift);
+  }, []);
+
+  // The registration panel is its own step in history, so the phone Back button closes it.
+  useEffect(() => {
+    const onPop = () => setPanelOpen(window.history.state?.view === PANEL_STATE);
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const openPanel = () => {
+    window.history.pushState({ view: PANEL_STATE }, '');
+    setPanelOpen(true);
+  };
+
+  const closePanel = () => {
+    setPanelOpen(false);
+    if (window.history.state?.view === PANEL_STATE) window.history.back();
+  };
+
+  // Every Register button comes through here.
   const handleRegister = () => {
     if (EVENT.registrationEmbedUrl) {
-      setPanelOpen(true);
+      openPanel();
     } else if (EVENT.registrationUrl) {
       window.open(EVENT.registrationUrl, '_blank', 'noopener');
     } else {
@@ -47,75 +77,50 @@ export default function App() {
     window.location.href = `mailto:${EVENT.email}?subject=BELOW%20ZERO%20partnership`;
   };
 
-  const handleExploreClick = () => {
-    const target = document.querySelector('#tracks');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <MotionConfig reducedMotion="user">
-    <div className="min-h-screen bg-[#F7F5EF] text-[#111111] flex flex-col selection:bg-[#FF1744] selection:text-[#111111] relative font-body">
-      {/* Neo-brutalist Interactive Custom Cursor */}
-      <CustomCursor />
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <div className="min-h-screen bg-paper text-void flex flex-col selection:bg-flare selection:text-paper">
+          <a href="#main" className="skip-link label">
+            Skip to main content
+          </a>
 
-      {/* Sticky Top Navigation */}
-      <Navbar onRegisterClick={handleRegister} />
+          {usesMouse && (
+            <Suspense fallback={null}>
+              <CustomCursor />
+            </Suspense>
+          )}
 
-      <CinematicIntro onComplete={() => setIntroDone(true)} />
+          <Navbar onRegisterClick={handleRegister} />
+          <DepthGauge />
+          <MobileRegisterBar onClick={handleRegister} />
 
-      <DepthGauge />
-      <MobileRegisterBar onClick={handleRegister} />
+          <main id="main" tabIndex={-1} className="flex-grow outline-none">
+            <Hero ready={introDone} onRegisterClick={handleRegister} onExploreClick={() => scrollToSection('#tracks')} />
+            <SystemTicker />
+            <Manifesto />
+            <Challenge />
+            <Tracks onRegister={handleRegister} />
+            <HowItWorks />
+            <ProcessTimeline />
+            <Judging />
+            <Prizes />
+            <Sponsors onPartnerClick={handlePartner} />
+            <Team />
+            <FAQ />
+            <FinalCTA onRegisterClick={handleRegister} />
+          </main>
 
-      <main className="flex-grow">
-        {/* Hero Section with Countdown Timer and Graphic Showcase */}
-        <Hero
-          ready={introDone}
-          onRegisterClick={handleRegister}
-          onExploreClick={handleExploreClick}
-        />
+          <Footer />
 
-        <SystemTicker />
-
-        {/* The Manifesto */}
-        <Manifesto />
-
-        <Challenge />
-
-        {/* Hackathon Tracks */}
-        <Tracks onRegister={handleRegister} />
-
-        <HowItWorks />
-
-        {/* The 24-Hour Build Experience (The Process) */}
-        <ProcessTimeline />
-
-        {/* Transparent Judging Philosophy & Rubric */}
-        <Judging />
-
-        {/* Prizes and Recognition */}
-        <Prizes />
-
-        {/* Sponsors and Partners */}
-        <Sponsors onPartnerClick={handlePartner} />
-
-        {/* Organizing Team */}
-        <Team />
-
-        {/* FAQ Section */}
-        <FAQ />
-
-        {/* Final Yellow Call To Action Poster */}
-        <FinalCTA onRegisterClick={handleRegister} />
-      </main>
-
-      {/* Footer */}
-      <Footer />
-
-      <RegistrationNotice isOpen={noticeOpen} onClose={() => setNoticeOpen(false)} />
-      <RegistrationPanel isOpen={panelOpen} onClose={() => setPanelOpen(false)} />
-    </div>
-    </MotionConfig>
+          {noticeOpen && (
+            <Suspense fallback={null}>
+              <RegistrationNotice isOpen={noticeOpen} onClose={() => setNoticeOpen(false)} />
+            </Suspense>
+          )}
+          <RegistrationPanel isOpen={panelOpen} onClose={closePanel} />
+        </div>
+      </MotionConfig>
+    </LazyMotion>
   );
 }

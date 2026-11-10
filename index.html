@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth bg-black text-white">
+<html lang="en" class="scroll-smooth bg-void text-paper">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BELOW ZERO 2026 | Student Hackathon by Lost in Stars</title>
-    <meta name="description" content="Join BELOW ZERO, a 24-hour student hackathon by Lost in Stars. Explore AI, web development, game development, AI agents, and voice assistants while building the future." />
-    
-    <link rel="canonical" href="https://rubikscuber48.github.io/below-zero-hackathon/" />
+    <meta name="description" content="__DESCRIPTION__" />
+
+    <link rel="canonical" href="__SITE_URL__" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:url" content="https://rubikscuber48.github.io/below-zero-hackathon/" />
-    <meta property="og:image" content="https://rubikscuber48.github.io/below-zero-hackathon/lost_in_stars_poster.jpg" />
+    <meta property="og:url" content="__SITE_URL__" />
+    <meta property="og:image" content="__SITE_URL__below-zero-share.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BELOW ZERO hackathon, __DATE_LONG__, __LOCATION__" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="BELOW ZERO 2026 | Student Hackathon by Lost in Stars" />
-    <meta property="og:description" content="Join BELOW ZERO, a 24-hour student hackathon by Lost in Stars. Explore AI, web development, game development, AI agents, and voice assistants while building the future." />
+    <meta property="og:description" content="__DESCRIPTION__" />
     <meta property="og:site_name" content="BELOW ZERO Hackathon" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="BELOW ZERO 2026 | Student Hackathon by Lost in Stars" />
-    <meta name="twitter:description" content="Join BELOW ZERO, a 24-hour student hackathon by Lost in Stars. Explore AI, web development, game development, AI agents, and voice assistants while building the future." />
-
-    <meta name="twitter:image" content="https://rubikscuber48.github.io/below-zero-hackathon/lost_in_stars_poster.jpg" />
+    <meta name="twitter:description" content="__DESCRIPTION__" />
+    <meta name="twitter:image" content="__SITE_URL__below-zero-share.png" />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" />
@@ -35,27 +37,101 @@
         "@context": "https://schema.org",
         "@type": "Event",
         "name": "BELOW ZERO 2026 Student Hackathon",
-        "description": "A 24-hour in-person student hackathon where imagination meets engineering. For students in Classes 8–12 on 14 November 2026 in Delhi NCR.",
+        "description": "__DESCRIPTION__",
         "organizer": {
           "@type": "Organization",
           "name": "LOST IN STARS",
-          "email": "official.lostinstars@gmail.com"
+          "email": "__EMAIL__"
         },
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "startDate": "2026-11-14T09:00:00+05:30",
-        "endDate": "2026-11-15T09:00:00+05:30",
+        "startDate": "__START__",
+        "endDate": "__END__",
         "location": {
           "@type": "Place",
-          "name": "Delhi NCR In-Person Arena",
-          "address": "Delhi NCR, India"
+          "name": "__LOCATION__",
+          "address": "__LOCATION__, India"
         }
       }
     </script>
+
+    <noscript>
+      <style>
+        #intro { display: none; }
+        #root .shell-links { animation: none; }
+      </style>
+    </noscript>
   </head>
-  <body class="bg-black text-white antialiased selection:bg-[#FF1744] selection:text-white">
-    <div id="root"></div>
+  <body class="bg-void text-paper antialiased selection:bg-flare selection:text-paper">
+    <!-- Opening animation. It is plain HTML and CSS so it shows before the app's code arrives. -->
+    <div id="intro" class="intro">
+      <button type="button" id="intro-skip" class="label intro-skip">Skip intro</button>
+      <div class="intro-centre">
+        <div class="intro-logo">
+          <img src="/src/assets/lost_in_stars_logo.webp" alt="" width="112" height="112" />
+          <span class="intro-ring"></span>
+        </div>
+        <div class="intro-mask mb-2"><p class="label intro-rise-short">Lost in Stars presents</p></div>
+        <div class="intro-mask pr-2 pb-2"><p class="display intro-word">Below Zero</p></div>
+        <p class="intro-tagline">Lost ideas, found innovation.</p>
+      </div>
+      <div class="label intro-foot">
+        <span>__DATE_LONG__</span>
+        <span class="hidden sm:inline">24-hour sprint</span>
+        <span>Classes 8–12</span>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var key = 'bz_intro_seen_v1';
+        var root = document.documentElement;
+        var intro = document.getElementById('intro');
+        var seen = false;
+        try { seen = !!sessionStorage.getItem(key); } catch (e) {}
+
+        if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          intro.remove();
+          window.bzIntro = { done: true, ready: function () {} };
+          return;
+        }
+
+        var waited = false, appReady = false, lifted = false;
+        var state = (window.bzIntro = { done: false, ready: function () { appReady = true; maybeLift(); } });
+
+        function remove() { intro.remove(); }
+        function maybeLift() {
+          if (lifted || !waited || !appReady) return;
+          lifted = true;
+          state.done = true;
+          try { sessionStorage.setItem(key, 'true'); } catch (e) {}
+          window.removeEventListener('keydown', onKey);
+          window.dispatchEvent(new Event('bz:intro-lift'));
+          intro.classList.add('is-leaving');
+          setTimeout(remove, 800);
+        }
+        function finish() { waited = true; maybeLift(); }
+        function onKey(e) { if (e.code === 'Space' || e.key === 'Escape') finish(); }
+
+        document.getElementById('intro-skip').addEventListener('click', finish);
+        window.addEventListener('keydown', onKey);
+        setTimeout(finish, 1700);
+        // If the app never starts, stop covering the fallback below.
+        setTimeout(function () { appReady = true; maybeLift(); }, 10000);
+      })();
+    </script>
+
+    <div id="root">
+      <div class="shell">
+        <p class="label">Lost in Stars presents</p>
+        <h1 class="display shell-title">Below Zero</h1>
+        <p class="body-copy">A free, in-person 24-hour hackathon for students in Classes 8–12. __DATE_LONG__, __LOCATION__.</p>
+        <noscript><p class="body-copy">Turn on JavaScript to see the full site, or use the links below.</p></noscript>
+        <p class="shell-links">
+          <a class="btn btn-solid-sun" href="__FORM_URL__">Register</a>
+          <a class="label underline underline-offset-4" href="mailto:__EMAIL__">__EMAIL__</a>
+        </p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

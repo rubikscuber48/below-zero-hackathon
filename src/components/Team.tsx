@@ -1,6 +1,6 @@
 import React from 'react';
 import { Reveal } from '../utils/motion';
-import { LEADERSHIP, ORGANIZERS, Person } from '../data/event';
+import { LEADERSHIP, ORGANIZERS, Person } from '../data/people';
 import { FourPointStar, SectionHead } from './Editorial';
 import logo from '../assets/lost_in_stars_logo.webp';
 
@@ -30,8 +30,8 @@ export const Team: React.FC = () => (
   <section id="team" className="section bg-paper text-void">
     <div className="wrap">
       <SectionHead
-        depth="09"
-        label="Team"
+        id="team"
+        layout="stacked"
         title={['Organized by', 'Lost in Stars.']}
         intro={<p>An independent creative and technology movement that has run two hackathons.</p>}
       />
@@ -42,7 +42,7 @@ export const Team: React.FC = () => (
           {LEADERSHIP.map((p) => (
             <Reveal key={p.name}>
               <Portrait person={p} size="text-[clamp(10rem,24vw,24rem)]" />
-              <p className="display text-[clamp(3.5rem,6vw,6.5rem)] mt-4">{p.name}</p>
+              <p className="display text-d4 mt-4">{p.name}</p>
               <p className="label mt-2">{p.role}</p>
               <p className="body-copy mt-3">{p.description}</p>
             </Reveal>
@@ -55,9 +55,9 @@ export const Team: React.FC = () => (
             {ORGANIZERS.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
                 <Portrait person={p} size="text-[clamp(5.5rem,7vw,7.5rem)]" />
-                <p className="display text-[9.6vw] sm:text-[clamp(2.5rem,5.5vw,3.5rem)] xl:text-[2.8vw] 2xl:text-[2.9rem] mt-3">{p.name}</p>
+                <p className="display text-d2 mt-3">{p.name}</p>
                 <p className="label mt-2">{p.role}</p>
-                <p className="text-[1.0625rem] leading-snug mt-2">{p.description}</p>
+                <p className="text-body leading-snug mt-2">{p.description}</p>
               </Reveal>
             ))}
           </div>
@@ -72,8 +72,8 @@ export const Team: React.FC = () => (
           <ul className="grid sm:grid-cols-2 gap-x-6 mt-6">
             {PRINCIPLES.map((p) => (
               <li key={p.title} className="border-t border-void py-3">
-                <span className="display text-[1.875rem] leading-none block">{p.title}</span>
-                <span className="text-[1rem] leading-snug block mt-1">{p.desc}</span>
+                <span className="display text-d1 leading-none block">{p.title}</span>
+                <span className="text-body leading-snug block mt-1">{p.desc}</span>
               </li>
             ))}
           </ul>

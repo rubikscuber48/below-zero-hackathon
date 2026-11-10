@@ -2,7 +2,8 @@ import React from 'react';
 import { Mail } from 'lucide-react';
 import { Reveal } from '../utils/motion';
 import { playSfx } from '../utils/audio';
-import { EVENT, PARTNERS, Partner } from '../data/event';
+import { EVENT } from '../data/event';
+import { PARTNERS, type Partner } from '../data/people';
 import { SectionHead } from './Editorial';
 
 interface SponsorsProps {
@@ -12,7 +13,7 @@ interface SponsorsProps {
 const REACH = [
   { label: 'Target participants', value: '300+ students' },
   { label: 'Eligibility', value: 'Classes 8⁠–⁠12' },
-  { label: 'Location', value: 'Delhi NCR' },
+  { label: 'Location', value: EVENT.location },
   { label: 'Duration', value: '24 hours' },
 ];
 
@@ -48,8 +49,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
   <section id="sponsors" className="section bg-void text-paper">
     <div className="wrap">
       <SectionHead
-        depth="08"
-        label="Sponsors and partners"
+        id="sponsors"
         title={['Back the next', 'builders.']}
         intro={<p>BELOW ZERO is free for students. Sponsorship pays for connectivity, meals, compute, awards, and certificates.</p>}
       />
@@ -62,7 +62,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
             {PARTNERS.title.length ? (
               <Logo partner={PARTNERS.title[0]} className="max-h-48 w-auto bg-paper p-4" />
             ) : (
-              <p className="display text-[clamp(3.25rem,11vw,12rem)]">
+              <p className="display text-d6">
                 Your name
                 <br />
                 goes here
@@ -70,7 +70,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
             )}
           </div>
           <div className="min-w-0 col-span-12 lg:col-span-4 lg:self-end">
-            <p className="text-[1.125rem] font-medium leading-snug">
+            <p className="text-lead font-medium leading-snug">
               Naming presence across the 24 hours, the opening keynote, a customized challenge track, and a seat on the jury.
             </p>
             <button
@@ -95,7 +95,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
         ].map((tier, i) => (
           <div key={tier.role} className="min-w-0 bg-void p-6 sm:p-8 flex flex-col justify-between gap-8 min-h-64">
             {PARTNERS.main[i] && <Logo partner={PARTNERS.main[i]} className="max-h-24 w-auto bg-paper p-3" />}
-            <h3 className="display text-[clamp(2.125rem,10.8vw,3rem)] md:text-[clamp(3rem,5.5vw,6rem)]">{tier.role}</h3>
+            <h3 className="display text-d2 md:text-d3">{tier.role}</h3>
             <p className="body-copy text-paper/85">{tier.scope}</p>
           </div>
         ))}
@@ -104,7 +104,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
       {/* Supporting */}
       <div className="grid grid-cols-12 gap-x-6 gap-y-5 mt-14">
         <div className="col-span-12 lg:col-span-3">
-          <h3 className="display text-[clamp(2.5rem,3.5vw,3.5rem)]">Supporting partners</h3>
+          <h3 className="display text-d3">Supporting partners</h3>
         </div>
         <div className="col-span-12 lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {PARTNERS.supporting.map((p) => (
@@ -124,7 +124,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
       <div className="mt-10 border-y border-paper/30 py-5 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h3 className="label text-sun">Community partners</h3>
-          <p className="mt-1 text-[1.0625rem] max-w-[60ch]">
+          <p className="mt-1 text-body max-w-[60ch]">
             Student developer communities, hack clubs, and computer science societies.
           </p>
         </div>
@@ -142,7 +142,7 @@ export const Sponsors: React.FC<SponsorsProps> = ({ onPartnerClick }) => (
         {REACH.map((r) => (
           <div key={r.label}>
             <dt className="label text-paper/80">{r.label}</dt>
-            <dd className="display text-[clamp(1.625rem,3.5vw,3.5rem)] mt-1">{r.value}</dd>
+            <dd className="display text-d1 lg:text-d2 mt-1">{r.value}</dd>
           </div>
         ))}
       </dl>

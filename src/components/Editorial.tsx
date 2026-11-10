@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { easeCinematic } from '../utils/motion';
+import { sectionInfo, type SectionId } from '../data/sections';
 
 /** Headline whose lines rise out of a mask one after another. */
 export const Lines: React.FC<{ lines: string[]; className?: string; delay?: number }> = ({
@@ -8,7 +9,7 @@ export const Lines: React.FC<{ lines: string[]; className?: string; delay?: numb
   className = '',
   delay = 0,
 }) => (
-  <motion.span
+  <m.span
     className={`block ${className}`}
     initial="hidden"
     whileInView="shown"
@@ -17,40 +18,74 @@ export const Lines: React.FC<{ lines: string[]; className?: string; delay?: numb
   >
     {lines.map((line) => (
       <span key={line} className="block overflow-hidden py-[0.06em] -my-[0.06em]">
-        <motion.span
+        <m.span
           className="block"
           variants={{ hidden: { y: '105%' }, shown: { y: 0 } }}
           transition={{ duration: 0.8, ease: easeCinematic }}
         >
           {line}
-        </motion.span>
+        </m.span>
       </span>
     ))}
-  </motion.span>
+  </m.span>
 );
 
-/** Sections count downward from the zero line in the hero. */
-export const SectionHead: React.FC<{
-  depth: string;
-  label: string;
+interface SectionHeadProps {
+  id: SectionId;
   title: string[];
   intro?: React.ReactNode;
   accent?: string;
   rule?: string;
-}> = ({ depth, label, title, intro, accent = 'text-flare', rule = 'border-current/30' }) => (
-  <header className={`grid grid-cols-12 gap-x-6 gap-y-8 border-t pt-5 mb-12 lg:mb-20 ${rule}`}>
-    <div className="col-span-12 lg:col-span-2 flex items-baseline gap-4 lg:block">
-      <div className={`display text-[clamp(3.5rem,6.5vw,6.5rem)] ${accent}`} aria-hidden="true">
-        −{depth}
-      </div>
-      <p className="label lg:mt-3">{label}</p>
+  /** "split" runs number, title, and intro across columns. "stacked" gives the title the full width. */
+  layout?: 'split' | 'stacked';
+}
+
+/** Section number, name, and title. Numbers and names come from data/sections.ts. */
+export const SectionHead: React.FC<SectionHeadProps> = ({
+  id,
+  title,
+  intro,
+  accent = 'text-flare',
+  rule = 'border-current/30',
+  layout = 'split',
+}) => {
+  const { number, name } = sectionInfo(id);
+  const mark = (
+    <div className={`display text-d4 ${accent}`} aria-hidden="true">
+      {number}
     </div>
-    <h2 className="display col-span-12 lg:col-span-7 text-[clamp(3.75rem,9.5vw,9rem)]">
-      <Lines lines={title} />
-    </h2>
-    {intro && <div className="col-span-12 lg:col-span-3 lg:self-end body-copy">{intro}</div>}
-  </header>
-);
+  );
+
+  if (layout === 'stacked') {
+    return (
+      <header className={`border-t pt-5 mb-12 lg:mb-20 ${rule}`}>
+        <div className="grid grid-cols-12 gap-x-6 gap-y-5 items-end">
+          <div className="col-span-12 lg:col-span-8 flex items-baseline gap-4">
+            {mark}
+            <p className="label">{name}</p>
+          </div>
+          {intro && <div className="col-span-12 lg:col-span-4 body-copy">{intro}</div>}
+        </div>
+        <h2 className="display text-d6 mt-8 lg:mt-10">
+          <Lines lines={title} />
+        </h2>
+      </header>
+    );
+  }
+
+  return (
+    <header className={`grid grid-cols-12 gap-x-6 gap-y-8 border-t pt-5 mb-12 lg:mb-20 ${rule}`}>
+      <div className="col-span-12 lg:col-span-2 flex items-baseline gap-4 lg:block">
+        {mark}
+        <p className="label lg:mt-3">{name}</p>
+      </div>
+      <h2 className="display col-span-12 lg:col-span-7 text-d5">
+        <Lines lines={title} />
+      </h2>
+      {intro && <div className="col-span-12 lg:col-span-3 lg:self-end body-copy">{intro}</div>}
+    </header>
+  );
+};
 
 /** The four-point star from the Lost in Stars logo. */
 export const FourPointStar: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -61,21 +96,23 @@ export const FourPointStar: React.FC<{ className?: string }> = ({ className = ''
 
 /** Compact heading for sections that keep their title beside the content. */
 export const SideHead: React.FC<{
-  depth: string;
-  label: string;
+  id: SectionId;
   title: string[];
   intro?: React.ReactNode;
-}> = ({ depth, label, title, intro }) => (
-  <header className="lg:sticky lg:top-24">
-    <div className="flex items-baseline gap-4 border-t border-current/30 pt-5">
-      <span className="display text-[clamp(3rem,5vw,5rem)] text-flare" aria-hidden="true">
-        −{depth}
-      </span>
-      <p className="label">{label}</p>
-    </div>
-    <h2 className="display text-[clamp(3.25rem,5.4vw,6.25rem)] mt-6">
-      <Lines lines={title} />
-    </h2>
-    {intro && <div className="body-copy mt-5">{intro}</div>}
-  </header>
-);
+}> = ({ id, title, intro }) => {
+  const { number, name } = sectionInfo(id);
+  return (
+    <header className="lg:sticky lg:top-24">
+      <div className="flex items-baseline gap-4 border-t border-current/30 pt-5">
+        <span className="display text-d3 text-flare" aria-hidden="true">
+          {number}
+        </span>
+        <p className="label">{name}</p>
+      </div>
+      <h2 className="display text-d4 mt-6">
+        <Lines lines={title} />
+      </h2>
+      {intro && <div className="body-copy mt-5">{intro}</div>}
+    </header>
+  );
+};

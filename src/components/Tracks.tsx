@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { m, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
-import { Track } from '../types';
+import type { Track, TrackId } from '../types';
+import { TRACKS } from '../data/tracks';
 import { easeCinematic, Reveal } from '../utils/motion';
 import { playSfx } from '../utils/audio';
 import { SectionHead } from './Editorial';
@@ -96,28 +97,18 @@ const VoiceArt = () => {
   );
 };
 
-type TrackDef = Track & {
+interface Look {
   art: React.ReactNode;
   span: string;
   tone: string;
   artBox: string;
   titleSize: string;
-  titleLines: string[];
   rule: string;
-};
+}
 
-const TRACKS: TrackDef[] = [
-  {
-    id: 'ai-model',
-    number: '01',
-    title: 'AI Model Making',
-    titleLines: ['AI Model', 'Making'],
-    tagline: 'Algorithms and neural systems',
-    description:
-      'Develop, fine-tune, and deploy machine learning models. Turn raw data, loss functions, and neural architectures into practical tools.',
-    focusAreas: ['Computer Vision', 'Predictive Classification', 'Natural Language Processing', 'Data Synthesis'],
-    sampleProject: 'Fine-tuned vision model detecting local environmental hazards or crop diseases.',
-    tools: ['PyTorch', 'TensorFlow', 'Scikit-Learn', 'Hugging Face'],
+/** How each track looks. The words are in data/tracks.ts. */
+const LOOK: Record<TrackId, Look> = {
+  'ai-model': {
     art: <ModelArt />,
     span: 'lg:col-span-7',
     tone: 'bg-flare text-void',
@@ -125,17 +116,7 @@ const TRACKS: TrackDef[] = [
     titleSize: 'text-[min(18cqw,10rem)]',
     rule: 'border-void',
   },
-  {
-    id: 'web-dev',
-    number: '02',
-    title: 'Web Development',
-    titleLines: ['Web', 'Development'],
-    tagline: 'Modern high-impact platforms',
-    description:
-      'Build high-performance web applications, interactive software, and student utility hubs that solve real-world problems.',
-    focusAreas: ['Interactive SPAs', 'Offline-First Architectures', 'Student Productivity Hubs', 'Real-Time Utility'],
-    sampleProject: 'Peer-to-peer resource exchange platform for high school research initiatives.',
-    tools: ['React', 'TypeScript', 'Node.js', 'Tailwind CSS'],
+  'web-dev': {
     art: <WebArt />,
     span: 'lg:col-span-5',
     tone: 'bg-paper text-void',
@@ -143,17 +124,7 @@ const TRACKS: TrackDef[] = [
     titleSize: 'text-[min(16.5cqw,8rem)]',
     rule: 'border-void',
   },
-  {
-    id: 'game-dev',
-    number: '03',
-    title: 'Game Development',
-    titleLines: ['Game', 'Development'],
-    tagline: 'Interactive mechanics and worlds',
-    description:
-      'Bring your imagination to life through original mechanics, physics-driven gameplay, and atmospheric digital environments.',
-    focusAreas: ['2D Pixel Platformers', 'Narrative Simulators', 'Physics-Driven Puzzles', 'Educational Mechanics'],
-    sampleProject: 'Gravity-manipulation arcade puzzle game teaching orbital celestial physics.',
-    tools: ['Godot', 'Unity', 'Phaser.js', 'Kaboom.js'],
+  'game-dev': {
     art: <GameArt />,
     span: 'lg:col-span-5',
     tone: 'bg-sun text-void',
@@ -161,17 +132,7 @@ const TRACKS: TrackDef[] = [
     titleSize: 'text-[min(16.5cqw,8rem)]',
     rule: 'border-void',
   },
-  {
-    id: 'ai-agents',
-    number: '04',
-    title: 'AI Agents',
-    titleLines: ['AI', 'Agents'],
-    tagline: 'Autonomous systems and tool use',
-    description:
-      'Build agentic loops capable of multi-step reasoning, external tool execution, browser automation, and self-correcting logic.',
-    focusAreas: ['Multi-Step Planners', 'Browser Automations', 'Research Synthesizers', 'Code Verification Loops'],
-    sampleProject: 'Autonomous curriculum coach that breaks a complex syllabus into daily hands-on experiments.',
-    tools: ['LangChain', 'Function Calling', 'Agentic Workflows', 'Python'],
+  'ai-agents': {
     art: <AgentArt />,
     span: 'lg:col-span-7',
     tone: 'bg-void text-paper',
@@ -179,17 +140,7 @@ const TRACKS: TrackDef[] = [
     titleSize: 'text-[min(20cqw,11rem)]',
     rule: 'border-paper',
   },
-  {
-    id: 'voice-assistants',
-    number: '05',
-    title: 'Voice Assistants',
-    titleLines: ['Voice Assistants'],
-    tagline: 'Conversational audio interfaces',
-    description:
-      'Design natural voice-first experiences that understand spoken commands, multilingual dialogue, and real-time audio generation.',
-    focusAreas: ['Speech-to-Intent', 'Hands-Free Access', 'Multilingual Dialogue', 'Assistive Speech Systems'],
-    sampleProject: 'Voice-controlled accessibility assistant for visual impairment in school libraries.',
-    tools: ['Web Speech API', 'Whisper', 'ElevenLabs', 'Realtime Audio'],
+  'voice-assistants': {
     art: <VoiceArt />,
     span: 'lg:col-span-12',
     tone: 'bg-flare text-void',
@@ -197,48 +148,60 @@ const TRACKS: TrackDef[] = [
     titleSize: 'text-[min(14cqw,15rem)]',
     rule: 'border-void',
   },
-];
+};
 
-const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number }> = ({ track, onRsvp, index }) => {
+const TrackPanel: React.FC<{ track: Track; onRsvp: () => void; index: number }> = ({ track, onRsvp, index }) => {
   const [open, setOpen] = useState(false);
   const panelId = `track-${track.id}`;
+  const look = LOOK[track.id];
+  const cardRef = useRef<HTMLElement>(null);
+  const revealRef = useRef<HTMLDivElement>(null);
+
+  // The title rests over the description, so it needs to know how tall the description is.
+  useEffect(() => {
+    const card = cardRef.current;
+    const reveal = revealRef.current;
+    if (!card || !reveal) return;
+    const observer = new ResizeObserver(() => card.style.setProperty('--reveal-h', `${reveal.offsetHeight}px`));
+    observer.observe(reveal);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Reveal delay={index % 2 ? 0.08 : 0} className={`col-span-12 ${track.span} flex`}>
+    <Reveal delay={index % 2 ? 0.08 : 0} className={`col-span-12 ${look.span} flex`}>
       <article
+        ref={cardRef}
         data-cursor="arena"
-        className={`@container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[30rem] ${track.id === 'voice-assistants' ? 'lg:min-h-[37rem] xl:min-h-[41rem]' : 'lg:min-h-[43rem] xl:min-h-[47rem] 2xl:min-h-[49rem]'} ${open ? 'is-open' : ''} ${track.tone}`}
+        className={`@container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[30rem] ${open ? 'is-open' : ''} ${look.tone}`}
       >
-        <div className={`track-art absolute pointer-events-none ${track.artBox}`} aria-hidden="true">
-          {track.art}
+        <div className={`track-art absolute pointer-events-none ${look.artBox}`} aria-hidden="true">
+          {look.art}
         </div>
 
         <div className="relative">
-          <div className="track-number display text-[clamp(5rem,20cqw,9rem)] leading-[0.9]" aria-hidden="true">
+          <div className="track-number display text-[clamp(5rem,20cqw,9rem)]" aria-hidden="true">
             {track.number}
           </div>
           <p className="label mt-3 max-w-[62cqw]">{track.tagline}</p>
         </div>
 
         <div className="relative mt-auto pt-8">
-          <h3 className={`display ${track.titleSize}`}>
+          <h3 className={`track-title relative z-10 display ${look.titleSize}`}>
             {track.titleLines.map((l) => (
               <span key={l} className="block">
                 {l}
               </span>
             ))}
           </h3>
-          <div className="track-reveal">
-            <div>
-              <p className="body-copy mt-4 font-medium">{track.description}</p>
-              <ul className="flex flex-wrap gap-2 mt-5" aria-label="Recommended tools">
-                {track.tools.map((tool) => (
-                  <li key={tool} className={`label border px-2.5 py-1 normal-case ${track.rule}`}>
-                    {tool}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div ref={revealRef} className="track-reveal">
+            <p className="body-copy mt-4 font-medium">{track.description}</p>
+            <ul className="flex flex-wrap gap-2 mt-5" aria-label="Recommended tools">
+              {track.tools.map((tool) => (
+                <li key={tool} className={`label border px-2.5 py-1 normal-case ${look.rule}`}>
+                  {tool}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <button
@@ -249,7 +212,7 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
               playSfx('click');
               setOpen(!open);
             }}
-            className={`label mt-6 w-full min-h-12 flex items-center justify-between border-t cursor-pointer ${track.rule}`}
+            className={`label mt-6 w-full min-h-12 flex items-center justify-between border-t cursor-pointer ${look.rule}`}
           >
             {open ? 'Hide details' : 'Show details'}
             {open ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
@@ -257,7 +220,7 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
 
           <AnimatePresence initial={false}>
             {open && (
-              <motion.div
+              <m.div
                 id={panelId}
                 initial={{ height: 0 }}
                 animate={{ height: 'auto' }}
@@ -268,7 +231,7 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
                 <div className="grid sm:grid-cols-2 gap-6 pt-3 pb-2">
                   <div>
                     <p className="label">Focus areas</p>
-                    <ul className="mt-2 text-[1.0625rem] leading-relaxed font-medium">
+                    <ul className="mt-2 text-body leading-relaxed font-medium">
                       {track.focusAreas.map((a) => (
                         <li key={a}>{a}</li>
                       ))}
@@ -276,18 +239,18 @@ const TrackPanel: React.FC<{ track: TrackDef; onRsvp: () => void; index: number 
                   </div>
                   <div>
                     <p className="label">Example build</p>
-                    <p className="mt-2 text-[1.0625rem] leading-snug font-medium">{track.sampleProject}</p>
-                    <p className="mt-2 text-[0.9375rem] leading-snug">You are free to propose your own problem.</p>
+                    <p className="mt-2 text-body leading-snug font-medium">{track.sampleProject}</p>
+                    <p className="mt-2 text-body leading-snug">You are free to propose your own problem.</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={onRsvp}
-                  className={`label mt-3 min-h-12 px-4 border-2 cursor-pointer ${track.rule}`}
+                  className={`label mt-3 min-h-12 px-4 border-2 cursor-pointer ${look.rule}`}
                 >
                   Register now
                 </button>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>
@@ -300,8 +263,7 @@ export const Tracks: React.FC<TracksProps> = ({ onRegister }) => (
   <section id="tracks" className="section bg-void text-paper">
     <div className="wrap">
       <SectionHead
-        depth="03"
-        label="Tracks"
+        id="tracks"
         title={['Five tracks.', 'Pick one.']}
         intro={<p>Choose the domain that excites you, form a team, and build working software.</p>}
       />

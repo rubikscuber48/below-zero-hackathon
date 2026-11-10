@@ -1,5 +1,6 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { m, useReducedMotion } from 'motion/react';
+import { EVENT } from '../data/event';
 
 export const SystemTicker: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -10,9 +11,9 @@ export const SystemTicker: React.FC = () => {
     '5 TRACKS',
     'PRIZES',
     'SPONSORS',
-    '14 NOVEMBER 2026',
+    EVENT.dateLong,
     'CLASSES 8–12 EXCLUSIVE',
-    'OFFLINE DELHI NCR',
+    `OFFLINE ${EVENT.location}`,
     'LOST IN STARS',
     '100% FREE ENTRY',
     'REAL RUNTIME DEMOS',
@@ -22,12 +23,12 @@ export const SystemTicker: React.FC = () => {
 
   return (
     <div
-      className="w-full bg-[#FF1744] text-[#111111] border-b-2 border-black overflow-hidden select-none py-1.5 shadow-[0_2px_10px_rgba(255,23,68,0.4)]"
+      className="w-full bg-flare text-void border-b-2 border-void overflow-hidden select-none py-1.5 shadow-[0_2px_10px_color-mix(in_srgb,var(--color-flare)_40%,transparent)]"
       aria-label="Event Highlights Ticker"
     >
       <div className="flex items-center whitespace-nowrap overflow-hidden">
         {/* Seamless Infinite Marquee Track */}
-        <motion.div
+        <m.div
           animate={shouldReduceMotion ? { x: 0 } : { x: ['0%', '-50%'] }}
           transition={
             shouldReduceMotion
@@ -44,8 +45,8 @@ export const SystemTicker: React.FC = () => {
           {/* First loop instance */}
           {tickerItems.map((item, i) => (
             <React.Fragment key={`ticker-1-${i}`}>
-              <span className="inline-flex items-center gap-1.5 px-3 sm:px-4 text-[#111111] hover:text-[#FFD633] transition-colors">
-                <span className="w-1.5 h-1.5 bg-[#FFD633] rounded-full inline-block animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 sm:px-4 text-void hover:text-sun transition-colors">
+                <span className="w-1.5 h-1.5 bg-sun rounded-full inline-block animate-pulse" />
                 <span>{item}</span>
               </span>
               <span className="text-black/60 font-bold select-none">//</span>
@@ -55,14 +56,14 @@ export const SystemTicker: React.FC = () => {
           {/* Duplicate instance for seamless infinite looping */}
           {tickerItems.map((item, i) => (
             <React.Fragment key={`ticker-2-${i}`}>
-              <span className="inline-flex items-center gap-1.5 px-3 sm:px-4 text-[#111111] hover:text-[#FFD633] transition-colors">
-                <span className="w-1.5 h-1.5 bg-[#FFD633] rounded-full inline-block animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 sm:px-4 text-void hover:text-sun transition-colors">
+                <span className="w-1.5 h-1.5 bg-sun rounded-full inline-block animate-pulse" />
                 <span>{item}</span>
               </span>
               <span className="text-black/60 font-bold select-none">//</span>
             </React.Fragment>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

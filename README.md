@@ -1,20 +1,37 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# BELOW ZERO
 
-# Run and deploy your AI Studio app
+Website for BELOW ZERO, a free 24-hour in-person hackathon for school students in Classes 8–12, organized by Lost in Stars.
 
-This contains everything you need to run your app locally.
+Live at https://rubikscuber48.github.io/below-zero-hackathon/
 
-View your app in AI Studio: https://ai.studio/apps/eb8780d3-0f84-4493-9d49-d9dde5391761
+## Run it locally
 
-## Run Locally
+Requires Node.js 20 or newer.
 
-**Prerequisites:**  Node.js
+```sh
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build in dist/
+npm run lint    # type-check
+```
 
+## Update the content
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Edit these files. Everything on the page, including the search and sharing tags, reads from them.
+
+| File | What it holds |
+| --- | --- |
+| `src/data/event.ts` | Date, time, place, email, registration links, timeline phases, social links |
+| `src/data/prizes.ts` | Prize amounts, winners, sponsors, and perks |
+| `src/data/people.ts` | Team members and sponsor logos |
+| `src/data/tracks.ts` | The five tracks |
+| `src/data/faq.ts` | Questions and answers |
+| `src/data/sections.ts` | Section order, numbers, and names |
+
+Leave a prize or partner field empty until it is confirmed. Empty fields stay hidden or show "To be announced".
+
+## Deployment
+
+Every push to `master` builds the site and publishes it to GitHub Pages through `.github/workflows/deploy.yml`.
+
+The opening animation and the page shown before the app starts are in `index.html`.

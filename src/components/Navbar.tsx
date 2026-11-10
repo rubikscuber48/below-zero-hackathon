@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import React, { useState } from 'react';
+import { m, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { playSfx } from '../utils/audio';
+import { scrollToSection } from '../utils/scroll';
+import { setActiveSection, useActiveSection } from '../hooks/useActiveSection';
+import type { SectionId } from '../data/sections';
 import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
+
+const NAV_LINKS: { name: string; href: string; id: SectionId }[] = [
+  { name: 'Tracks', href: '#tracks', id: 'tracks' },
+  { name: 'About', href: '#manifesto', id: 'manifesto' },
+  { name: 'Schedule', href: '#process', id: 'process' },
+  { name: 'FAQ', href: '#faq', id: 'faq' },
+];
 
 interface NavbarProps {
   onRegisterClick: () => void;
@@ -10,7 +20,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('hero');
+  const activeSection = useActiveSection();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 200,
@@ -18,41 +28,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     restDelta: 0.001,
   });
 
-  const navLinks = [
-    { name: 'Tracks', href: '#tracks', id: 'tracks' },
-    { name: 'About', href: '#manifesto', id: 'manifesto' },
-    { name: 'Schedule', href: '#process', id: 'process' },
-    { name: 'FAQ', href: '#faq', id: 'faq' },
-  ];
-
-  useEffect(() => {
-    // Section scroll observer for active indicator
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: '-48% 0px -50% 0px' }
-    );
-
-    ['hero', 'manifesto', 'challenge', 'tracks', 'how', 'process', 'judging', 'prizes', 'sponsors', 'team', 'faq', 'register'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: SectionId) => {
     e.preventDefault();
     playSfx('click');
     setActiveSection(id);
-    const scroll = () => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    const scroll = () => scrollToSection(href);
     if (mobileMenuOpen) {
       // Wait for the menu to finish collapsing, or the layout shift cancels the scroll.
       setMobileMenuOpen(false);
@@ -70,15 +50,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-void text-paper border-b border-paper/30">
-      <motion.div style={{ scaleX }} className="absolute left-0 right-0 bottom-[-1px] h-[2px] bg-flare origin-left" aria-hidden="true" />
+      <m.div style={{ scaleX }} className="absolute left-0 right-0 bottom-[-1px] h-[2px] bg-flare origin-left" aria-hidden="true" />
       <div className="wrap h-16 flex items-center justify-between gap-6">
         <a href="#hero" onClick={(e) => handleNavClick(e, '#hero', 'hero')} className="flex items-center gap-3 shrink-0">
           <img src={lostInStarsLogo} alt="Lost in Stars" width={44} height={44} className="w-11 h-11 rounded-full" />
-          <span className="display hidden min-[360px]:inline text-[1.75rem] leading-none whitespace-nowrap">Below Zero</span>
+          <span className="display hidden min-[360px]:inline text-d1 leading-none whitespace-nowrap">Below Zero</span>
         </a>
 
         <nav aria-label="Primary" className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -97,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           <button
             type="button"
             onClick={handlePrimary}
-            className="display text-[1.125rem] leading-none bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors"
+            className="display hidden md:inline-flex items-center text-ui bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors"
           >
             Register
           </button>
@@ -119,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
+          <m.div
             id="mobile-menu"
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
@@ -128,18 +108,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
             className="md:hidden overflow-hidden border-t border-paper/30 max-h-[calc(100svh-4rem)] overflow-y-auto"
           >
             <nav aria-label="Mobile" className="wrap py-3">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href, link.id)}
-                  className="display text-[2.75rem] flex items-center min-h-14 border-b border-paper/20"
+                  className="display text-d3 flex items-center min-h-14 border-b border-paper/20"
                 >
                   {link.name}
                 </a>
               ))}
             </nav>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>
