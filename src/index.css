@@ -488,3 +488,54 @@
   padding-right: clamp(1.25rem, 4vw, 4rem);
   padding-left: max(clamp(1.25rem, 4.5vw, 4.5rem), calc((100vw - 1600px) / 2 + 4.5rem));
 }
+
+/* Final section planet: a soft glow that breathes, a gentle float for the logo, and a ring pulse */
+.final-glow {
+  background: var(--color-flare);
+  filter: blur(48px);
+  opacity: 0.35;
+  animation: final-glow 5s ease-in-out infinite;
+}
+
+.final-shine {
+  background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--color-paper) 22%, transparent), transparent 55%);
+}
+
+.final-logo {
+  position: relative;
+  animation: final-float 6s ease-in-out infinite;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.final-logo img {
+  box-shadow: 0 0 0 4px var(--color-void), 0 18px 40px color-mix(in srgb, var(--color-void) 55%, transparent);
+}
+
+.final-logo-ring {
+  border: 2px solid var(--color-sun);
+  animation: final-ring 3s ease-out infinite;
+}
+
+@keyframes final-glow {
+  50% {
+    opacity: 0.6;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes final-float {
+  50% {
+    transform: translateY(-4%) rotate(3deg);
+  }
+}
+
+@keyframes final-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}

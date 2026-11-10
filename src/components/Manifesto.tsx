@@ -16,7 +16,7 @@ const HIGHLIGHTS = [
 export const Manifesto: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const imageY = useTransform(scrollYProgress, [0, 1], ['-5%', '5%']);
+  const imageY = useTransform(scrollYProgress, [0, 1], ['-4%', '4%']);
 
   return (
     <section id="manifesto" className="section bg-paper text-void">
@@ -45,8 +45,9 @@ export const Manifesto: React.FC = () => {
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-5">
-          <div ref={ref} className="overflow-hidden bg-void aspect-[4/5] lg:aspect-auto lg:h-full">
+        <div className="col-span-12 lg:col-span-5 lg:self-center">
+          {/* Keeps the poster's own shape, so the lettering is never cut off */}
+          <div ref={ref} className="overflow-hidden bg-void aspect-[742/1024] max-w-xl mx-auto lg:max-w-none">
             <m.img
               style={{ y: imageY, filter: 'url(#void-duotone)' }}
               src={poster}
@@ -55,7 +56,9 @@ export const Manifesto: React.FC = () => {
               decoding="async"
               alt="Lost in Stars graffiti lettering on a field of stars"
               loading="lazy"
-              className="w-full h-[110%] -mt-[5%] object-cover"
+              width={742}
+              height={1024}
+              className="w-full h-full object-cover scale-[1.1]"
             />
           </div>
           {/* Maps the poster's night sky into the BELOW ZERO black, leaving its red and white alone */}
