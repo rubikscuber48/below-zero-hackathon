@@ -62,7 +62,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
         <FourPointStar className="twinkle twinkle-late absolute left-[20%] bottom-[18%] w-3 text-paper" />
         <FourPointStar className="twinkle absolute right-[18%] bottom-[12%] w-4 text-paper" />
 
-        <div data-planet="final" className="final-planet relative w-[min(72%,17rem)] sm:w-[22rem] lg:w-[min(72%,26rem)] aspect-square">
+        <div className="final-planet relative w-[min(72%,17rem)] sm:w-[22rem] lg:w-[min(72%,26rem)] aspect-square">
           <div className="final-glow absolute inset-0 rounded-full" />
           <RingHalf half="back" animate={!reduceMotion} seconds={ORBIT_SECONDS} width="w-[165%]" />
           <m.div style={{ scale: planetScale }} className="final-disk absolute inset-0 rounded-full bg-flare overflow-hidden">

@@ -554,51 +554,6 @@
   }
 }
 
-/* The planet that travels down the page (see PlanetTraveler.tsx) */
-.planet-traveler {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 30;
-  width: 100px;
-  height: 100px;
-  opacity: 0;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.planet-traveler-disk {
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background: var(--traveler-fill, var(--color-flare));
-  transition: background-color 300ms ease;
-}
-
-.planet-traveler-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 175%;
-  overflow: visible;
-  transform: translate(-50%, -50%);
-  stroke: var(--traveler-ring, var(--color-void));
-  stroke-width: 1.5px;
-  transition: stroke 300ms ease;
-}
-
-/* The final ring waits empty until the travelling planet lands in it */
-.final-disk,
-.final-glow {
-  transition: opacity 350ms ease;
-}
-
-.final-planet.awaiting .final-disk,
-.final-planet.awaiting .final-glow {
-  opacity: 0;
-  animation: none;
-}
-
 .marquee-outline {
   color: transparent;
   -webkit-text-stroke: 2px var(--color-void);

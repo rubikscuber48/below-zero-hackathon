@@ -126,7 +126,6 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
         {/* Planet, ring, and moon. The moon passes behind the planet on the far side of its orbit. */}
         <m.div
           aria-hidden="true"
-          data-planet="hero"
           style={{ top }}
           className="absolute left-[calc(var(--planet-x)+var(--mx,0px))] w-[calc(var(--planet-r)*2)] aspect-square -translate-x-1/2 -translate-y-1/2"
         >
