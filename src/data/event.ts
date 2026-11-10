@@ -8,7 +8,7 @@
 
 export const EVENT = {
   /** Public address of the site, used for sharing and search tags. Keep the trailing slash. */
-  siteUrl: 'https://rubikscuber48.github.io/below-zero-hackathon/',
+  siteUrl: 'https://belowzero2027.xyz/',
   /** Short date for tight spaces. */
   dateLabel: '14 November',
   /** Full date for sentences. */

@@ -2,7 +2,7 @@
 
 Website for BELOW ZERO, a free 24-hour in-person hackathon for school students in Classes 8–12, organized by Lost in Stars.
 
-Live at https://rubikscuber48.github.io/below-zero-hackathon/
+Live at https://belowzero2027.xyz/
 
 ## Run it locally
 
