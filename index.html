@@ -105,9 +105,10 @@
           state.done = true;
           try { sessionStorage.setItem(key, 'true'); } catch (e) {}
           window.removeEventListener('keydown', onKey);
-          window.dispatchEvent(new Event('bz:intro-lift'));
           intro.classList.add('is-leaving');
-          setTimeout(remove, 800);
+          // The planet covers the screen first, then opens onto the page.
+          setTimeout(function () { window.dispatchEvent(new Event('bz:intro-lift')); }, 380);
+          setTimeout(remove, 980);
         }
         function finish() { waited = true; maybeLift(); }
         function onKey(e) { if (e.code === 'Space' || e.key === 'Escape') finish(); }

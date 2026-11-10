@@ -51,7 +51,7 @@ export const Prizes: React.FC = () => (
               <br />
               Champions
             </h3>
-            <PrizeFacts prize={PRIZES.champion} className="border-t-2 border-flare pt-3 mt-8 text-sun" />
+            <PrizeFacts prize={PRIZES.champion} className="border-t-2 border-sun pt-3 mt-8 text-sun" />
             <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 mt-4">
               {CHAMPION_PERKS.map((perk) => (
                 <li key={perk} className="border-t border-paper/30 py-2.5 text-body font-medium leading-snug">
@@ -64,9 +64,10 @@ export const Prizes: React.FC = () => (
       </Reveal>
 
       {/* Runners-up */}
-      <div className="grid md:grid-cols-2 gap-px bg-void border-x border-b border-void">
+      <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mt-8">
         {RUNNERS.map((r, i) => (
-          <Reveal key={r.title} delay={i * 0.08} className="@container bg-paper p-6 sm:p-8">
+          <Reveal key={r.title} delay={i * 0.08} className={`halftone-shadow ${i % 2 ? 'tilt-b' : 'tilt-a'}`}>
+            <div className="@container h-full bg-paper border-2 border-void p-6 sm:p-8">
             <p className="label">{r.place}</p>
             <h3 className="display whitespace-nowrap text-[min(13cqw,6.5rem)] mt-3">{r.title}</h3>
             <PrizeFacts prize={r.details} className="mt-3" />
@@ -75,6 +76,7 @@ export const Prizes: React.FC = () => (
                 <li key={p}>{p}</li>
               ))}
             </ul>
+            </div>
           </Reveal>
         ))}
       </div>
@@ -87,7 +89,7 @@ export const Prizes: React.FC = () => (
         </div>
         <ul className="grid grid-cols-2 lg:grid-cols-5 gap-px bg-void border border-void">
           {TRACKS.map(({ title: t }) => (
-            <li key={t} className="last:col-span-2 lg:last:col-span-1 bg-flare p-4 min-h-36 flex items-end display text-d1 leading-[0.92]">
+            <li key={t} className="last:col-span-2 lg:last:col-span-1 bg-paper p-4 min-h-36 flex items-end display text-d1 leading-[0.92]">
               {t}
             </li>
           ))}

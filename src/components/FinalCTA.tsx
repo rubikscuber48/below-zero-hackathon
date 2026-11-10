@@ -34,6 +34,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
           <button
             type="button"
             data-register-cta
+            data-magnetic
             className="btn btn-solid-void"
             onClick={() => {
               playSfx('click');
@@ -67,6 +68,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
           <RingHalf half="back" animate={!reduceMotion} seconds={ORBIT_SECONDS} width="w-[165%]" />
           <m.div style={{ scale: planetScale }} className="final-disk absolute inset-0 rounded-full bg-flare overflow-hidden">
             <span className="final-shine absolute inset-0 rounded-full" />
+            <span className="planet-halftone" />
           </m.div>
           <m.div
             style={{ rotate: logoRotate }}

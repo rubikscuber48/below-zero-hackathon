@@ -170,6 +170,10 @@
   box-shadow: 7px 7px 0 #FF1744;
 }
 
+[data-magnetic] {
+  transition: translate 260ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
 /* Pressing a button pushes it down onto its shadow, like a key */
 .btn-solid-sun:active,
 .btn-solid-void:active {
@@ -325,11 +329,43 @@
   color: var(--color-void);
   background: var(--color-paper);
   user-select: none;
-  transition: transform 750ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Leaving: a red planet grows from the centre to cover the screen, then opens like an iris onto the page */
+@property --intro-hole {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.intro::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax;
+  border-radius: 9999px;
+  background: var(--color-flare);
+  transform: scale(0);
+  transition: transform 420ms cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .intro.is-leaving {
-  transform: translateY(-100%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--intro-hole), #000 calc(var(--intro-hole) + 0.5px));
+  mask-image: radial-gradient(circle at 50% 50%, transparent var(--intro-hole), #000 calc(var(--intro-hole) + 0.5px));
+  animation: intro-hole 560ms 400ms cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+.intro.is-leaving::after {
+  transform: scale(1);
+}
+
+@keyframes intro-hole {
+  to {
+    --intro-hole: 110%;
+  }
 }
 
 .intro-skip {
@@ -634,4 +670,89 @@
 
 @keyframes art-wave {
   50% { transform: scaleY(0.3); }
+}
+
+/*
+ * Colour rule: one hot colour (red or yellow) leads each section's large areas, and black and
+ * cream carry the rest. The two planet moments, the hero and the final section, are the exceptions.
+ */
+
+/* Paper grain over the whole page, so flat colours read as ink on paper */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1.4 -0.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Comic-print dots shading one side of a planet */
+.planet-halftone {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-image: radial-gradient(circle, var(--color-void) 0 28%, transparent 31%);
+  background-size: 0.7rem 0.7rem;
+  opacity: 0.42;
+  -webkit-mask-image: linear-gradient(120deg, transparent 42%, #000 92%);
+  mask-image: linear-gradient(120deg, transparent 42%, #000 92%);
+}
+
+/* A dotted print shadow behind a card. The card itself is the child, so it sits on top. */
+.halftone-shadow {
+  position: relative;
+}
+
+.halftone-shadow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translate(12px, 12px);
+  background-image: radial-gradient(circle, var(--color-void) 0 36%, transparent 40%);
+  background-size: 8px 8px;
+}
+
+.halftone-shadow > * {
+  position: relative;
+}
+
+/* The runner-up cards sit slightly crooked, like stuck-on paper, and straighten on hover */
+.tilt-a,
+.tilt-b {
+  transition: rotate 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tilt-a { rotate: -1.1deg; }
+.tilt-b { rotate: 1.3deg; }
+
+.tilt-a:hover,
+.tilt-b:hover {
+  rotate: 0deg;
+}
+
+/* Track cards tip toward the pointer */
+#tracks {
+  overflow-x: clip;
+}
+
+.track-card {
+  transition: transform 220ms ease-out;
+}
+
+/* The hero's tick ruler, repeated as the seam between sections */
+main > section:not(#hero):not(#register) {
+  position: relative;
+}
+
+main > section:not(#hero):not(#register)::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.75rem;
+  pointer-events: none;
+  background-image: linear-gradient(to right, currentColor 2px, transparent 2px);
+  background-size: 4.5vw 100%;
+  box-shadow: inset 0 2px 0 currentColor;
 }

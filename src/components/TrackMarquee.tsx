@@ -18,8 +18,8 @@ const Row: React.FC<{ outlined?: boolean }> = ({ outlined }) => (
 export const TrackMarquee: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const left = useTransform(scrollYProgress, [0, 1], ['0%', '-28%']);
-  const right = useTransform(scrollYProgress, [0, 1], ['-28%', '0%']);
+  const left = useTransform(scrollYProgress, [0, 1], ['0%', '-9%']);
+  const right = useTransform(scrollYProgress, [0, 1], ['-9%', '0%']);
   const row = 'display flex items-center gap-[0.3em] w-max whitespace-nowrap text-[clamp(3.5rem,12vw,11rem)]';
 
   return (

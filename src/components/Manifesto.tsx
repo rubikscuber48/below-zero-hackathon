@@ -3,6 +3,7 @@ import { m, useScroll, useTransform } from 'motion/react';
 import { Reveal } from '../utils/motion';
 import { Lines } from './Editorial';
 import { sectionInfo } from '../data/sections';
+import { CountUp } from './CountUp';
 import poster from '../assets/lost_in_stars_poster.webp';
 import posterSmall from '../assets/lost_in_stars_poster-480.webp';
 
@@ -73,7 +74,9 @@ export const Manifesto: React.FC = () => {
           {HIGHLIGHTS.map((h, i) => (
             <Reveal key={h.label} delay={i * 0.07} className="flex flex-col-reverse justify-end pt-5 pb-2 lg:border-r last:border-r-0 border-void/30 lg:pl-5 first:pl-0">
               <dt className="label mt-2">{h.label}</dt>
-              <dd className="display text-d5">{h.value}</dd>
+              <dd className="display text-d5">
+                <CountUp value={h.value} />
+              </dd>
             </Reveal>
           ))}
         </dl>

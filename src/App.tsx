@@ -26,6 +26,7 @@ import { RegistrationPanel } from './components/RegistrationPanel';
 import { EVENT } from './data/event';
 import { safeLazy } from './utils/safeLazy';
 import { scrollToSection } from './utils/scroll';
+import { useMagnetic } from './hooks/useMagnetic';
 
 const CustomCursor = safeLazy(() => import('./components/CustomCursor').then((mod) => mod.CustomCursor));
 const RegistrationNotice = safeLazy(() => import('./components/RegistrationNotice').then((mod) => mod.RegistrationNotice));
@@ -37,6 +38,8 @@ export default function App() {
   const [noticeOpen, setNoticeOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
   const [usesMouse] = useState(() => window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+
+  useMagnetic(usesMouse);
 
   // The opening animation lives in index.html so it can start before this code arrives.
   useEffect(() => {

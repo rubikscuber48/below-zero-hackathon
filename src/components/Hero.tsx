@@ -130,7 +130,9 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
           className="absolute left-[calc(var(--planet-x)+var(--mx,0px))] w-[calc(var(--planet-r)*2)] aspect-square -translate-x-1/2 -translate-y-1/2"
         >
           <RingHalf half="back" animate={!reduceMotion} seconds={26} width="w-[175%]" />
-          <div className="absolute inset-0 rounded-full bg-flare" />
+          <div className="absolute inset-0 rounded-full bg-flare overflow-hidden">
+            <span className="planet-halftone" />
+          </div>
           <RingHalf half="front" animate={!reduceMotion} seconds={26} width="w-[175%]" />
         </m.div>
 
@@ -201,6 +203,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
             <button
               type="button"
               data-register-cta
+              data-magnetic
               className="btn btn-solid-sun"
               onClick={() => {
                 playSfx('click');

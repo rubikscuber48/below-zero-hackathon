@@ -173,9 +173,30 @@ const TrackPanel: React.FC<{ track: Track; onRsvp: () => void; index: number }> 
       rootMargin: '-25% 0px -25% 0px',
     });
     inView.observe(card);
+
+    // With a mouse, the card tips a few degrees toward the pointer. Wide cards tip less.
+    const canTilt =
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const onMove = (e: PointerEvent) => {
+      const r = card.getBoundingClientRect();
+      const max = Math.min(4, 2400 / r.width);
+      const ry = ((e.clientX - r.left) / r.width - 0.5) * 2 * max;
+      const rx = -((e.clientY - r.top) / r.height - 0.5) * 2 * Math.min(3, 1500 / r.height);
+      card.style.transform = `perspective(1200px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    };
+    const onLeave = () => {
+      card.style.transform = '';
+    };
+    if (canTilt) {
+      card.addEventListener('pointermove', onMove);
+      card.addEventListener('pointerleave', onLeave);
+    }
     return () => {
       observer.disconnect();
       inView.disconnect();
+      card.removeEventListener('pointermove', onMove);
+      card.removeEventListener('pointerleave', onLeave);
     };
   }, []);
 
@@ -184,7 +205,7 @@ const TrackPanel: React.FC<{ track: Track; onRsvp: () => void; index: number }> 
       <article
         ref={cardRef}
         data-cursor="arena"
-        className={`@container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[30rem] ${open ? 'is-open' : ''} ${look.tone}`}
+        className={`track-card @container group relative overflow-hidden w-full flex flex-col p-5 sm:p-8 min-h-[30rem] ${open ? 'is-open' : ''} ${look.tone}`}
       >
         <div className={`track-art absolute pointer-events-none ${look.artBox}`} aria-hidden="true">
           {look.art}
