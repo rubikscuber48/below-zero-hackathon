@@ -170,6 +170,20 @@
   box-shadow: 7px 7px 0 #FF1744;
 }
 
+/* Pressing a button pushes it down onto its shadow, like a key */
+.btn-solid-sun:active,
+.btn-solid-void:active {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 #FF1744;
+  transition-duration: 60ms;
+}
+
+.btn-line:active,
+.press:active {
+  transform: translate(2px, 2px) scale(0.98);
+  transition-duration: 60ms;
+}
+
 .btn-line:hover {
   background: currentColor;
 }
@@ -538,4 +552,131 @@
     opacity: 0;
     transform: scale(1.35);
   }
+}
+
+/* The planet that travels down the page (see PlanetTraveler.tsx) */
+.planet-traveler {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.planet-traveler-disk {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--traveler-fill, var(--color-flare));
+  transition: background-color 300ms ease;
+}
+
+.planet-traveler-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 175%;
+  overflow: visible;
+  transform: translate(-50%, -50%);
+  stroke: var(--traveler-ring, var(--color-void));
+  stroke-width: 1.5px;
+  transition: stroke 300ms ease;
+}
+
+/* The final ring waits empty until the travelling planet lands in it */
+.final-disk,
+.final-glow {
+  transition: opacity 350ms ease;
+}
+
+.final-planet.awaiting .final-disk,
+.final-planet.awaiting .final-glow {
+  opacity: 0;
+  animation: none;
+}
+
+.marquee-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-void);
+}
+
+/* Track drawings move on hover or keyboard focus, and while on screen on touch devices */
+.track-art svg * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (hover: hover) {
+  .group:hover .track-art,
+  .group:focus-within .track-art,
+  .is-open .track-art {
+    --art-state: running;
+  }
+}
+
+@media (hover: none) {
+  [data-live] .track-art {
+    --art-state: running;
+  }
+}
+
+.art-pulse,
+.art-fade,
+.art-blink,
+.art-nudge,
+.art-type,
+.art-hop,
+.art-spin,
+.art-wave {
+  animation-duration: 1.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-play-state: var(--art-state, paused);
+}
+
+.art-pulse { animation-name: art-pulse; }
+.art-fade { animation-name: art-fade; }
+.art-blink { animation-name: art-blink; animation-duration: 1.2s; }
+.art-nudge { animation-name: art-nudge; animation-duration: 2.4s; }
+.art-type { animation-name: art-type; animation-duration: 2.6s; animation-timing-function: linear; }
+.art-hop { animation-name: art-hop; animation-duration: 0.9s; }
+.art-spin { animation-name: art-spin; animation-duration: 16s; animation-timing-function: linear; }
+.art-wave { animation-name: art-wave; animation-duration: 0.84s; }
+
+@keyframes art-pulse {
+  35% { transform: scale(1.4); }
+}
+
+@keyframes art-fade {
+  50% { opacity: 0.2; }
+}
+
+@keyframes art-blink {
+  50% { opacity: 0.35; }
+}
+
+@keyframes art-nudge {
+  50% { transform: translate(-7px, -7px); }
+}
+
+@keyframes art-type {
+  0%, 60%, 100% { stroke-dashoffset: 0; }
+  12% { stroke-dashoffset: 1; }
+}
+
+@keyframes art-hop {
+  0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+  45% { transform: translateY(-72px); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3); }
+}
+
+@keyframes art-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes art-wave {
+  50% { transform: scaleY(0.3); }
 }

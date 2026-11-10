@@ -5,6 +5,7 @@ import { playSfx } from '../utils/audio';
 import { EVENT } from '../data/event';
 import { calendarUrl, CountdownTimer } from './CountdownTimer';
 import { FourPointStar } from './Editorial';
+import { RingHalf } from './Orbit';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import lostInStarsLogo from '../assets/lost_in_stars_logo.webp';
 
@@ -54,8 +55,48 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
 
   // Scrolling sinks it below the line.
   const centreY = useTransform([rise, scrollYProgress], ([r, s]: number[]) => r + s * 90);
-  const top = useMotionTemplate`${centreY}%`;
-  const clip = useMotionTemplate`circle(var(--planet-r) at var(--planet-x) ${centreY}%)`;
+  const top = useMotionTemplate`calc(${centreY}% + var(--my, 0px))`;
+  const clip = useMotionTemplate`circle(var(--planet-r) at calc(var(--planet-x) + var(--mx, 0px)) calc(${centreY}% + var(--my, 0px)))`;
+
+  // With a mouse, the planet leans a little toward the pointer and its ring tilts.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const skyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const section = ref.current;
+    const stage = stageRef.current;
+    if (!section || !stage || reduceMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const target = { x: 0, y: 0 };
+    const now = { x: 0, y: 0 };
+    let frame = 0;
+    const step = () => {
+      now.x += (target.x - now.x) * 0.08;
+      now.y += (target.y - now.y) * 0.08;
+      stage.style.setProperty('--mx', `${(now.x * 16).toFixed(2)}px`);
+      stage.style.setProperty('--my', `${(now.y * 9).toFixed(2)}px`);
+      stage.style.setProperty('--ring-tilt', `${(now.x * 3.5).toFixed(2)}deg`);
+      if (skyRef.current) skyRef.current.style.transform = `translate3d(${(-now.x * 10).toFixed(2)}px, ${(-now.y * 6).toFixed(2)}px, 0)`;
+      const moving = Math.abs(target.x - now.x) + Math.abs(target.y - now.y) > 0.002;
+      frame = moving ? requestAnimationFrame(step) : 0;
+    };
+    const onMove = (e: PointerEvent) => {
+      const r = section.getBoundingClientRect();
+      target.x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      target.y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    const onLeave = () => {
+      target.x = 0;
+      target.y = 0;
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    section.addEventListener('pointermove', onMove);
+    section.addEventListener('pointerleave', onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      section.removeEventListener('pointermove', onMove);
+      section.removeEventListener('pointerleave', onLeave);
+    };
+  }, [reduceMotion]);
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 18 },
@@ -76,39 +117,23 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreClick, rea
       id="hero"
       className="relative overflow-hidden bg-void text-paper min-h-[calc(100svh-4rem)] flex flex-col"
     >
-      <div className="absolute inset-0 starfield opacity-70" aria-hidden="true" />
+      <div ref={skyRef} className="absolute -inset-4 starfield opacity-70" aria-hidden="true" />
       <div className="absolute inset-0 overflow-hidden opacity-45" aria-hidden="true">
         <div className="star-drift starfield" />
       </div>
 
-      <div className="hero-stage @container relative flex-1 flex flex-col overflow-hidden">
+      <div ref={stageRef} className="hero-stage @container relative flex-1 flex flex-col overflow-hidden">
+        {/* Planet, ring, and moon. The moon passes behind the planet on the far side of its orbit. */}
         <m.div
           aria-hidden="true"
+          data-planet="hero"
           style={{ top }}
-          className="absolute left-[var(--planet-x)] w-[calc(var(--planet-r)*2)] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full bg-flare"
-        />
-        <m.svg
-          aria-hidden="true"
-          style={{ top }}
-          viewBox="0 0 1000 400"
-          fill="none"
-          className="absolute left-[var(--planet-x)] w-[calc(var(--planet-r)*3.5)] -translate-x-1/2 -translate-y-1/2 overflow-visible"
+          className="absolute left-[calc(var(--planet-x)+var(--mx,0px))] w-[calc(var(--planet-r)*2)] aspect-square -translate-x-1/2 -translate-y-1/2"
         >
-          <g transform="rotate(-14 500 200)">
-            <ellipse cx="500" cy="200" rx="490" ry="130" stroke="#F7F5EF" strokeWidth="2.5" />
-            {reduceMotion ? (
-              <circle cx="990" cy="200" r="15" fill="#FFD633" />
-            ) : (
-              <circle r="15" fill="#FFD633">
-                <animateMotion
-                  dur="26s"
-                  repeatCount="indefinite"
-                  path="M990 200a490 130 0 1 1-980 0a490 130 0 1 1 980 0"
-                />
-              </circle>
-            )}
-          </g>
-        </m.svg>
+          <RingHalf half="back" animate={!reduceMotion} seconds={26} width="w-[175%]" />
+          <div className="absolute inset-0 rounded-full bg-flare" />
+          <RingHalf half="front" animate={!reduceMotion} seconds={26} width="w-[175%]" />
+        </m.div>
 
         <FourPointStar className="twinkle twinkle-late absolute right-[7%] top-[16%] w-3 text-paper" />
 

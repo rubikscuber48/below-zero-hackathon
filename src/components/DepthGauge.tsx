@@ -80,7 +80,7 @@ export const MobileRegisterBar: React.FC<{ onClick: () => void }> = ({ onClick }
                 playSfx('click');
                 onClick();
               }}
-              className="display text-ui bg-sun text-void h-12 px-5 w-full cursor-pointer"
+              className="press display text-ui bg-sun text-void h-12 px-5 w-full cursor-pointer"
             >
               Register now
             </button>

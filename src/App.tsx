@@ -21,6 +21,8 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { Challenge } from './components/Challenge';
 import { HowItWorks } from './components/HowItWorks';
+import { PlanetTraveler } from './components/PlanetTraveler';
+import { TrackMarquee } from './components/TrackMarquee';
 import { RegistrationPanel } from './components/RegistrationPanel';
 import { EVENT } from './data/event';
 import { safeLazy } from './utils/safeLazy';
@@ -93,6 +95,7 @@ export default function App() {
 
           <Navbar onRegisterClick={handleRegister} />
           <DepthGauge />
+          <PlanetTraveler />
           <MobileRegisterBar onClick={handleRegister} />
 
           <main id="main" tabIndex={-1} className="flex-grow outline-none">
@@ -104,6 +107,7 @@ export default function App() {
             <HowItWorks />
             <ProcessTimeline />
             <Judging />
+            <TrackMarquee />
             <Prizes />
             <Sponsors onPartnerClick={handlePartner} />
             <Team />

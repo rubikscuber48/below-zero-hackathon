@@ -3,6 +3,7 @@ import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { playSfx } from '../utils/audio';
 import { EVENT } from '../data/event';
 import { FourPointStar, Lines } from './Editorial';
+import { RingHalf } from './Orbit';
 import logo from '../assets/lost_in_stars_logo.webp';
 
 interface FinalCTAProps {
@@ -10,39 +11,6 @@ interface FinalCTAProps {
 }
 
 const ORBIT_SECONDS = 9;
-
-/** One half of the tilted ring. The back half sits behind the planet, the front half in front of it. */
-const RingHalf: React.FC<{ half: 'back' | 'front'; animate: boolean }> = ({ half, animate }) => {
-  // Clockwise from the right edge: the lower (front) half first, then the upper (back) half.
-  const orbit = 'M990 200 A490 130 0 0 1 10 200 A490 130 0 0 1 990 200';
-  const arc = half === 'front' ? 'M990 200 A490 130 0 0 1 10 200' : 'M10 200 A490 130 0 0 1 990 200';
-  return (
-    <svg
-      viewBox="0 0 1000 400"
-      fill="none"
-      className="absolute left-1/2 top-1/2 w-[165%] -translate-x-1/2 -translate-y-1/2 overflow-visible pointer-events-none"
-    >
-      <g transform="rotate(-14 500 200)">
-        <path d={arc} stroke="var(--color-paper)" strokeWidth="2.5" opacity={half === 'back' ? 0.55 : 1} />
-        <circle r="15" fill="var(--color-sun)" cx={animate ? 0 : 990} cy={animate ? 0 : 200} opacity={animate ? 0 : half === 'front' ? 1 : 0}>
-          {animate && (
-            <>
-              <animateMotion dur={`${ORBIT_SECONDS}s`} repeatCount="indefinite" path={orbit} />
-              <animate
-                attributeName="opacity"
-                dur={`${ORBIT_SECONDS}s`}
-                repeatCount="indefinite"
-                calcMode="discrete"
-                keyTimes="0;0.5"
-                values={half === 'front' ? '1;0' : '0;1'}
-              />
-            </>
-          )}
-        </circle>
-      </g>
-    </svg>
-  );
-};
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
   const ref = useRef<HTMLElement>(null);
@@ -94,10 +62,10 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
         <FourPointStar className="twinkle twinkle-late absolute left-[20%] bottom-[18%] w-3 text-paper" />
         <FourPointStar className="twinkle absolute right-[18%] bottom-[12%] w-4 text-paper" />
 
-        <div className="final-planet relative w-[min(72%,17rem)] sm:w-[22rem] lg:w-[min(72%,26rem)] aspect-square">
+        <div data-planet="final" className="final-planet relative w-[min(72%,17rem)] sm:w-[22rem] lg:w-[min(72%,26rem)] aspect-square">
           <div className="final-glow absolute inset-0 rounded-full" />
-          <RingHalf half="back" animate={!reduceMotion} />
-          <m.div style={{ scale: planetScale }} className="absolute inset-0 rounded-full bg-flare overflow-hidden">
+          <RingHalf half="back" animate={!reduceMotion} seconds={ORBIT_SECONDS} width="w-[165%]" />
+          <m.div style={{ scale: planetScale }} className="final-disk absolute inset-0 rounded-full bg-flare overflow-hidden">
             <span className="final-shine absolute inset-0 rounded-full" />
           </m.div>
           <m.div
@@ -109,7 +77,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onRegisterClick }) => {
               <span className="final-logo-ring absolute inset-0 rounded-full" />
             </div>
           </m.div>
-          <RingHalf half="front" animate={!reduceMotion} />
+          <RingHalf half="front" animate={!reduceMotion} seconds={ORBIT_SECONDS} width="w-[165%]" />
         </div>
       </div>
     </section>

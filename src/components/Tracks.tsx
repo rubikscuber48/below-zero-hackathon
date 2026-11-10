@@ -22,9 +22,9 @@ const ModelArt = () => {
   return (
     <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" className="w-full h-full">
       {layers.slice(0, -1).flatMap((l, a) =>
-        l.flatMap((y1, i) => layers[a + 1].map((y2, j) => <line key={`${a}${i}${j}`} x1={xs[a]} y1={y1} x2={xs[a + 1]} y2={y2} strokeWidth="1.25" />)),
+        l.flatMap((y1, i) => layers[a + 1].map((y2, j) => <line key={`${a}${i}${j}`} x1={xs[a]} y1={y1} x2={xs[a + 1]} y2={y2} strokeWidth="1.25" className="art-fade" style={{ animationDelay: `${a * 0.35 + ((i + j) % 4) * 0.12}s` }} />)),
       )}
-      {layers.flatMap((l, a) => l.map((y, i) => <circle key={`n${a}${i}`} cx={xs[a]} cy={y} r="13" fill="currentColor" />))}
+      {layers.flatMap((l, a) => l.map((y, i) => <circle key={`n${a}${i}`} cx={xs[a]} cy={y} r="13" fill="currentColor" className="art-pulse" style={{ animationDelay: `${a * 0.35 + i * 0.06}s` }} />))}
     </svg>
   );
 };
@@ -33,14 +33,18 @@ const WebArt = () => (
   <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" strokeWidth="3" className="w-full h-full">
     {[0, 42, 84].map((o) => (
       <g key={o} transform={`translate(${o} ${o})`}>
-        <rect x="20" y="20" width="270" height="200" fill="#F7F5EF" />
-        <line x1="20" y1="54" x2="290" y2="54" />
-        <circle cx="40" cy="37" r="5" fill="currentColor" />
-        <circle cx="60" cy="37" r="5" fill="currentColor" />
+        <g className="art-nudge" style={{ animationDelay: `${o / 280}s` }}>
+          <rect x="20" y="20" width="270" height="200" fill="#F7F5EF" />
+          <line x1="20" y1="54" x2="290" y2="54" />
+          <circle cx="40" cy="37" r="5" fill="currentColor" />
+          <circle cx="60" cy="37" r="5" fill="currentColor" />
+        </g>
       </g>
     ))}
-    <rect x="125" y="170" width="100" height="44" fill="#FF1744" stroke="none" />
-    <path d="M125 240h210M125 262h150M125 284h180" />
+    <rect x="125" y="170" width="100" height="44" fill="#FF1744" stroke="none" className="art-blink" />
+    {['M125 240h210', 'M125 262h150', 'M125 284h180'].map((d, i) => (
+      <path key={d} d={d} pathLength="1" strokeDasharray="1" className="art-type" style={{ animationDelay: `${i * 0.18}s` }} />
+    ))}
   </svg>
 );
 
@@ -54,12 +58,12 @@ const GameArt = () => (
       [158, 164],
       [196, 170],
       [226, 206],
-    ].map(([x, y]) => (
-      <rect key={x} x={x} y={y} width="12" height="12" />
+    ].map(([x, y], i) => (
+      <rect key={x} x={x} y={y} width="12" height="12" className="art-fade" style={{ animationDelay: `${i * 0.14}s` }} />
     ))}
-    <rect x="196" y="206" width="44" height="44" />
+    <rect x="196" y="206" width="44" height="44" className="art-hop" />
     <circle cx="340" cy="70" r="46" fill="none" stroke="currentColor" strokeWidth="8" />
-    <circle cx="340" cy="70" r="16" />
+    <circle cx="340" cy="70" r="16" className="art-pulse" />
   </svg>
 );
 
@@ -71,14 +75,14 @@ const AgentArt = () => {
   });
   return (
     <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-full h-full">
-      <circle cx="200" cy="200" r={r} strokeDasharray="10 12" />
+      <circle cx="200" cy="200" r={r} strokeDasharray="10 12" className="art-spin" />
       {nodes.map(([x, y], i) => (
         <g key={i}>
           <line x1="200" y1="200" x2={x} y2={y} strokeWidth="1.25" />
-          <rect x={x - 17} y={y - 17} width="34" height="34" fill={i === 0 ? '#FFD633' : '#000000'} />
+          <rect x={x - 17} y={y - 17} width="34" height="34" fill={i === 0 ? '#FFD633' : '#000000'} className="art-pulse" style={{ animationDelay: `${i * 0.22}s` }} />
         </g>
       ))}
-      <rect x="168" y="168" width="64" height="64" fill="#FF1744" stroke="none" />
+      <rect x="168" y="168" width="64" height="64" fill="#FF1744" stroke="none" className="art-blink" />
     </svg>
   );
 };
@@ -87,7 +91,7 @@ const VoiceArt = () => {
   const bars = Array.from({ length: 96 }, (_, i) => {
     const h = 14 + Math.abs(Math.sin(i * 0.33) * Math.cos(i * 0.09 + 1)) * 150 + (i % 5) * 3;
     return (
-      <rect key={i} x={i * 12.5} y={100 - h / 2} width="6" height={h} rx="0" />
+      <rect key={i} x={i * 12.5} y={100 - h / 2} width="6" height={h} className="art-wave" style={{ animationDelay: `${(i % 12) * 0.07}s` }} />
     );
   });
   return (
@@ -164,7 +168,15 @@ const TrackPanel: React.FC<{ track: Track; onRsvp: () => void; index: number }> 
     if (!card || !reveal) return;
     const observer = new ResizeObserver(() => card.style.setProperty('--reveal-h', `${reveal.offsetHeight}px`));
     observer.observe(reveal);
-    return () => observer.disconnect();
+    // Touch screens have no hover, so the drawing moves while the card is on screen.
+    const inView = new IntersectionObserver(([entry]) => card.toggleAttribute('data-live', entry.isIntersecting), {
+      rootMargin: '-25% 0px -25% 0px',
+    });
+    inView.observe(card);
+    return () => {
+      observer.disconnect();
+      inView.disconnect();
+    };
   }, []);
 
   return (

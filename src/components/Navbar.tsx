@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           <button
             type="button"
             onClick={handlePrimary}
-            className="display hidden md:inline-flex items-center text-ui bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors"
+            className="press display hidden md:inline-flex items-center text-ui bg-sun text-void h-11 px-4 ml-2 cursor-pointer whitespace-nowrap hover:bg-paper transition-colors"
           >
             Register
           </button>
