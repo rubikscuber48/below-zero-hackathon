@@ -59,4 +59,10 @@ export const ORGANIZERS: Person[] = [
     description: 'Designing the BELOW ZERO website.',
     initials: 'AY',
   },
+  {
+    name: 'Shiva Singh',
+    role: 'Partnership Co-Lead',
+    description: 'Co-leading partnerships for BELOW ZERO.',
+    initials: 'SS',
+  },
 ];

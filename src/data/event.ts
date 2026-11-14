@@ -10,18 +10,18 @@ export const EVENT = {
   /** Public address of the site, used for sharing and search tags. Keep the trailing slash. */
   siteUrl: 'https://belowzero2027.xyz/',
   /** Short date for tight spaces. */
-  dateLabel: '14 November',
+  dateLabel: '31 March',
   /** Full date for sentences. */
-  dateLong: '14 November 2026',
+  dateLong: '31 March 2027',
   startTimeLabel: '9:00 AM IST',
   location: 'Delhi NCR',
   /**
-   * Set to an ISO string (e.g. '2026-11-14T09:00:00+05:30') once the date is
+   * Set to an ISO string (e.g. '2027-03-31T09:00:00+05:30') once the date is
    * final. The countdown and "Save to calendar" return to the hero when set.
    */
-  confirmedStart: '2026-11-14T09:00:00+05:30' as string | null,
+  confirmedStart: '2027-03-31T09:00:00+05:30' as string | null,
   /** Event end, used for the calendar link. */
-  confirmedEnd: '2026-11-15T09:00:00+05:30' as string | null,
+  confirmedEnd: '2027-04-01T09:00:00+05:30' as string | null,
   email: 'official.lostinstars@gmail.com',
   /**
    * REGISTRATION LINK. Paste the live form URL here (Google Forms, Fillout, etc).
