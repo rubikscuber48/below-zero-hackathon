@@ -51,15 +51,30 @@ export const Team: React.FC = () => (
 
         <div className="col-span-12 lg:col-span-7">
           <h3 className="label border-t border-void pt-3 mb-4">Organizers</h3>
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-x-5 gap-y-8">
-            {ORGANIZERS.map((p, i) => (
-              <Reveal key={p.name} delay={i * 0.08}>
-                <Portrait person={p} size="text-[clamp(5.5rem,7vw,7.5rem)]" />
-                <p className="display text-d2 mt-3">{p.name}</p>
-                <p className="label mt-2">{p.role}</p>
-                <p className="text-body leading-snug mt-2">{p.description}</p>
-              </Reveal>
-            ))}
+          <div className="grid grid-cols-2 xl:grid-cols-6 gap-x-5 gap-y-8">
+            {ORGANIZERS.map((p, i) => {
+              // Five organizers: three across, then the last two as wider side-by-side cards.
+              const wide = i >= 3;
+              const last = i === ORGANIZERS.length - 1 && ORGANIZERS.length % 2 === 1;
+              const span = wide ? 'xl:col-span-3' : 'xl:col-span-2';
+              const row = wide || last ? 'flex gap-5' : '';
+              return (
+                <Reveal
+                  key={p.name}
+                  delay={i * 0.08}
+                  className={`${span} ${last ? 'col-span-2' : ''} ${i === 3 ? 'xl:flex xl:gap-5' : row}`}
+                >
+                  <div className={last ? 'w-28 sm:w-36 shrink-0' : i === 3 ? 'xl:w-36 xl:shrink-0' : wide ? 'xl:w-36 xl:shrink-0' : ''}>
+                    <Portrait person={p} size="text-[clamp(5.5rem,7vw,7.5rem)]" />
+                  </div>
+                  <div className={last ? 'min-w-0 flex-1' : wide ? 'xl:min-w-0 xl:flex-1' : ''}>
+                    <p className={`display text-d2 ${last ? '' : wide ? 'mt-3 xl:mt-0' : 'mt-3'}`}>{p.name}</p>
+                    <p className="label mt-2">{p.role}</p>
+                    <p className="text-body leading-snug mt-2">{p.description}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
 
           <div className="mt-14 border-t border-void pt-5 flex items-start gap-5">
